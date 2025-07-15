@@ -46,6 +46,10 @@ export const functions: CompletionType[] = [
     label: 'NULLVALUE',
     apply: snippet(`BLANKVALUE(\${value}, \${"Default"})`),
   },
+  {
+    label: 'INCLUDES',
+    apply: snippet(`INCLUDES(\${multiPicklist}, \${"value"})`),
+  },
 ]
 
 export const operators: CompletionType[] = '> < >= <= & + - * / AND OR'.split(' ').map((operator) => {
