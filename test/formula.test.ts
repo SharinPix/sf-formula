@@ -276,6 +276,35 @@ describe('formula_eval', () => {
     testFormulaError('BLANKVALUE("test")', {}, 'Not enough arguments 1/2 in BLANKVALUE("test")', 'BLANKVALUE with 1 argument');
   });
 
+  describe('INCLUDES - Multi-picklist function', () => {
+    testFormula('INCLUDES("1;2;3;4;5", "3")', {}, true, 'INCLUDES finds value in multi-picklist');
+    testFormula('INCLUDES("1;2;3;4;5", "6")', {}, false, 'INCLUDES does not find value in multi-picklist');
+    testFormula('INCLUDES("Option A;Option B;Option C", "Option B")', {}, true, 'INCLUDES finds text value in multi-picklist');
+    testFormula('INCLUDES("Option A;Option B;Option C", "Option D")', {}, false, 'INCLUDES does not find text value in multi-picklist');
+    testFormula('INCLUDES("Apple;Banana;Orange", "App")', {}, false, 'INCLUDES does not do partial matches');
+    testFormula('INCLUDES("SingleValue", "SingleValue")', {}, true, 'INCLUDES finds exact match with single value');
+
+    testFormula('INCLUDES("1;2;3", TEXT(2))', {}, true, 'INCLUDES finds number converted to string in multi-picklist');
+    testFormula('INCLUDES("1;2;3", TEXT(4))', {}, false, 'INCLUDES does not find number converted to string in multi-picklist');
+
+    testFormula('INCLUDES("", "value")', {}, false, 'INCLUDES with empty string returns false');
+    testFormula('INCLUDES(null, "value")', {}, false, 'INCLUDES with null returns false');
+    testFormula('INCLUDES(undefined, "value")', {}, false, 'INCLUDES with undefined returns false');
+    testFormula('INCLUDES("value", "")', {}, false, 'INCLUDES searching for empty string returns false');
+
+    testFormula('INCLUDES(MultiPicklist, "B")', { MultiPicklist: "A;B;C" }, true, 'INCLUDES with variable containing multi-picklist');
+    testFormula('INCLUDES(MultiPicklist, "D")', { MultiPicklist: "A;B;C" }, false, 'INCLUDES with variable not containing value');
+
+    testFormulaError('INCLUDES("value")', {}, 'Not enough arguments 1/2 in INCLUDES("value")', 'INCLUDES with 1 argument');
+    testFormulaError('INCLUDES()', {}, 'Not enough arguments 0/2 in INCLUDES()', 'INCLUDES with no arguments');
+    testFormulaError('INCLUDES("a", "b", "c")', {}, 'Too many arguments 3/2 in INCLUDES("a", "b", "c")', 'INCLUDES with too many arguments');
+
+    testFormulaError('INCLUDES("1;2;3", 2)', {}, 'Argument 2 of INCLUDES must be a string', 'INCLUDES with number argument');
+    testFormulaError('INCLUDES(123, "2")', {}, 'Argument 1 of INCLUDES must be a string', 'INCLUDES with number multi-picklist');
+    testFormulaError('INCLUDES(true, "value")', {}, 'Argument 1 of INCLUDES must be a string', 'INCLUDES with boolean multi-picklist');
+    testFormulaError('INCLUDES("value", false)', {}, 'Argument 2 of INCLUDES must be a string', 'INCLUDES with boolean value');
+  });
+
   describe('Dynamic context', () => {
     testFormula('Amount', (variables: string[])=> {
       assert(variables.length === 1);
