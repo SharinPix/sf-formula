@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export default (_env, _argv) => {
+export default () => {
     const isGitHubPages = process.env.GITHUB_PAGES === 'true';
     
     // Set public path for GitHub Pages deployment

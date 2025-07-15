@@ -35,20 +35,16 @@ export const functions: CompletionType[] = [
     apply: snippet(`TRUNC(\${value}, \${2})`),
   },
   {
-    label: 'ROUND',
-    apply: snippet(`ROUND(\${value}, \${2})`),
-  },
-  {
     label: 'BLANKVALUE',
     apply: snippet(`BLANKVALUE(\${value}, \${"Default"})`),
   },
   {
     label: 'NULLVALUE',
-    apply: snippet(`BLANKVALUE(\${value}, \${"Default"})`),
+    apply: snippet(`NULLVALUE(\${value}, \${"Default"})`),
   },
   {
     label: 'INCLUDES',
-    apply: snippet(`INCLUDES(\${multiPicklist}, \${"value"})`),
+    apply: snippet(`INCLUDES(\${multiPicklist}, \${"Default"})`),
   },
 ]
 
