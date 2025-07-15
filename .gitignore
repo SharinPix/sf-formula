@@ -7,3 +7,4 @@ docs/
 src/parser.ts
 src/parser.terms.ts
 test/*.js
+.npmrc

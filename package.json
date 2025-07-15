@@ -1,10 +1,17 @@
 {
   "name": "@sharinpix/sf-formula",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Formula evaluation engine",
   "type": "module",
   "main": "dist/formula.js",
   "types": "dist/formula.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sharinpix/sf-formula.git"
+  },
   "exports": {
     ".": {
       "import": "./dist/formula.js",
