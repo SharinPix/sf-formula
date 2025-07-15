@@ -5,7 +5,7 @@ A powerful formula evaluation engine for TypeScript/JavaScript applications.
 ## Installation
 
 ```bash
-npm install @SharinPix/sf-formula
+npm install @sharinpix/sf-formula
 ```
 
 ## Import Options
@@ -14,26 +14,26 @@ This library provides multiple import paths to avoid dependency conflicts, espec
 
 ### Default Import (Compiled)
 ```typescript
-import { formulaEval } from '@SharinPix/sf-formula';
+import { formulaEval } from '@sharinpix/sf-formula';
 ```
 
 ### Core Functionality Only (Raw TypeScript)
 ```typescript
 // For projects that want to avoid CodeMirror dependencies
-import { formulaEval } from '@SharinPix/sf-formula/core';
+import { formulaEval } from '@sharinpix/sf-formula/core';
 ```
 
 ### Raw TypeScript Source
 ```typescript
 // Direct access to TypeScript source files
-import { formulaEval } from '@SharinPix/sf-formula/src';
+import { formulaEval } from '@sharinpix/sf-formula/src';
 ```
 
 ### Individual Modules
 ```typescript
 // Import specific functionality
-import { defaultFunctions } from '@SharinPix/sf-formula/functions';
-import { parser } from '@SharinPix/sf-formula/parser';
+import { defaultFunctions } from '@sharinpix/sf-formula/functions';
+import { parser } from '@sharinpix/sf-formula/parser';
 ```
 
 ## CodeMirror Integration
@@ -41,7 +41,7 @@ import { parser } from '@SharinPix/sf-formula/parser';
 If you're using CodeMirror in your project and experiencing conflicts, use the `/core` import:
 
 ```typescript
-import { formulaEval } from '@SharinPix/sf-formula/core';
+import { formulaEval } from '@sharinpix/sf-formula/core';
 import { EditorView } from '@codemirror/view'; // Your own CodeMirror version
 
 // This avoids duplicate CodeMirror instances
@@ -56,7 +56,7 @@ npm install @codemirror/language @codemirror/autocomplete @lezer/common @lezer/h
 
 Then use:
 ```typescript
-import { languagePack } from '@SharinPix/sf-formula';
+import { languagePack } from '@sharinpix/sf-formula';
 import { EditorView } from '@codemirror/view';
 
 const view = new EditorView({
@@ -68,7 +68,7 @@ const view = new EditorView({
 ## Usage
 
 ```typescript
-import { formulaEval } from '@SharinPix/sf-formula/core';
+import { formulaEval } from '@sharinpix/sf-formula/core';
 
 // Simple evaluation
 const result = formulaEval('2 + 2'); // 4
