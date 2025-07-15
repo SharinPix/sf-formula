@@ -44,7 +44,7 @@ export const functions: CompletionType[] = [
   },
   {
     label: 'INCLUDES',
-    apply: snippet(`INCLUDES(\${multiPicklist}, \${"Default"})`),
+    apply: snippet(`INCLUDES(\${value}, \${"value"})`),
   },
 ]
 
