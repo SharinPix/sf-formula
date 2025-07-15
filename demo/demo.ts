@@ -27,7 +27,10 @@ class FormulaDemo {
       firstName: "John",
       lastName: "Doe",
       age: 30,
-      balance: 1500.75
+      balance: 1500.75,
+      skills: "JavaScript;TypeScript;React;Node.js",
+      colors: "Red;Blue;Green",
+      departments: "Sales;Marketing;Engineering"
     };
 
     constructor() {

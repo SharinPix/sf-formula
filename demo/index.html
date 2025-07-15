@@ -196,6 +196,11 @@
                 <button class="example-button" onclick="loadExample('firstName + &quot; &quot; + lastName')">firstName + " " + lastName</button>
                 <button class="example-button" onclick="loadExample('name = &quot;John&quot;')">name = "John"</button>
 
+                <h4>Multi-Picklist Operations:</h4>
+                <button class="example-button" onclick="loadExample('INCLUDES(&quot;Red;Blue;Green&quot;, &quot;Blue&quot;)')">INCLUDES("Red;Blue;Green", "Blue")</button>
+                <button class="example-button" onclick="loadExample('INCLUDES(&quot;Option A;Option B;Option C&quot;, &quot;Option D&quot;)')">INCLUDES("Option A;Option B;Option C", "Option D")</button>
+                <button class="example-button" onclick="loadExample('INCLUDES(skills, &quot;TypeScript&quot;)')">INCLUDES(skills, "TypeScript")</button>
+
                 <h4>Numbers & Advanced:</h4>
                 <button class="example-button" onclick="loadExample('42')">42</button>
                 <button class="example-button" onclick="loadExample('3.14159')">3.14159</button>

@@ -42,8 +42,7 @@
     "prepare": "husky",
     "prepublishOnly": "npm test && npm run lint",
     "check-types": "tsc --noEmit",
-    "docs": "typedoc --out docs src/formula.ts",
-    "semantic-release": "semantic-release"
+    "docs": "typedoc --out docs src/formula.ts"
   },
   "keywords": [
     "formula",
@@ -92,7 +91,6 @@
     "jest-environment-jsdom": "^30.0.0-beta.3",
     "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
-    "semantic-release": "^24.2.3",
     "ts-jest": "^29.2.6",
     "typedoc": "^0.28.1",
     "typescript": "^5.8.2",
