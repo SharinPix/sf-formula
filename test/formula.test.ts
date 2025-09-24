@@ -305,6 +305,37 @@ describe('formula_eval', () => {
     testFormulaError('INCLUDES("value", false)', {}, 'Argument 2 of INCLUDES must be a string', 'INCLUDES with boolean value');
   });
 
+  describe('COUNTMATCHES', () => {
+    testFormula('COUNTMATCHES("2   0 22", "2")', {}, 3, 'COUNTMATCHES counts occurrences of a string in a string');
+    testFormula('COUNTMATCHES("2   0 22", "0")', {}, 1, 'COUNTMATCHES counts occurrences of a string in a string 2');
+    testFormula('COUNTMATCHES("passed passed failed", "failed")', {}, 1, 'COUNTMATCHES counts occurrences of a string in a string 3');
+    testFormula('COUNTMATCHES("passed passed failed", "pass")', {}, 2, 'COUNTMATCHES counts occurrences of a string in a string 4');
+    testFormula('COUNTMATCHES("passed passed failed", "Pass")', {}, 0, 'COUNTMATCHES is case sensitive');
+    testFormula('COUNTMATCHES("2   0 22", "")', {}, 0, 'COUNTMATCHES returns 0 when searching for empty string');
+    testFormula('COUNTMATCHES("2   0 22", "3")', {}, 0, 'COUNTMATCHES returns 0 when searching for non-existent string');
+    testFormula('COUNTMATCHES(listString, "2")', { listString: "2   0 22"}, 3, 'COUNTMATCHES with listString variable');
+
+    testFormula('COUNTMATCHES(["passed", "passed", "failed"], "passed")', {}, 2, 'COUNTMATCHES counts occurrences of a string in an array');
+    testFormula('COUNTMATCHES(["passed", "passed", "failed"], "Passed")', {}, 0, 'COUNTMATCHES is case sensitive 2');
+    testFormula('COUNTMATCHES(["passed", "", "failed"], "")', {}, 1, 'COUNTMATCHES counts occurrences of a string in an array 2');
+    testFormula('COUNTMATCHES(list, "passed")', { list: ["passed", "passed", "failed"]}, 2, 'COUNTMATCHES with array variable');
+
+    testFormula('COUNTMATCHES([1, 2, 2], 2)', {}, 2, 'COUNTMATCHES counts occurrences of a number in an array');
+    testFormula('COUNTMATCHES([1, 0, 1], 0)', {}, 1, 'COUNTMATCHES counts occurrences of a number in an array 2');
+    testFormula('COUNTMATCHES([1, 2, 2], 3)', {}, 0, 'COUNTMATCHES returns 0 when searching for non-existent number in an array');
+    testFormula('COUNTMATCHES([1, 2, 2], "2")', {}, 0, 'COUNTMATCHES returns 0 when searching for string in a number array');
+
+    testFormula('COUNTMATCHES([false, true, false], true)', {}, 1, 'COUNTMATCHES counts occurrences of a boolean in an array');
+    testFormula('COUNTMATCHES([false, true, false], false)', {}, 2, 'COUNTMATCHES counts occurrences of a boolean in an array 2');
+    testFormula('COUNTMATCHES([false, true, false], "true")', {}, 0, 'COUNTMATCHES returns 0 when searching for string in a boolean array');
+
+    testFormulaError('COUNTMATCHES("1;2;3", 2)', {}, 'Argument 2 of COUNTMATCHES must also be a string', 'COUNTMATCHES with first argument string and second argument not string');
+    testFormulaError('COUNTMATCHES(2, 2)', {}, 'Argument 1 of COUNTMATCHES must be a string or a list', 'COUNTMATCHES with first argument not string or array');
+    testFormulaError('COUNTMATCHES(true, "value")', {}, 'Argument 1 of COUNTMATCHES must be a string or a list', 'COUNTMATCHES with boolean first argument');
+    testFormulaError('COUNTMATCHES(null, "value")', {}, 'Argument 1 of COUNTMATCHES must be a string or a list', 'COUNTMATCHES with null first argument');
+    testFormulaError('COUNTMATCHES([false, true, false], "true", "true")', {}, 'Too many arguments 3/2 in COUNTMATCHES([false, true, false], "true", "true")', 'COUNTMATCHES with too many arguments');
+  });
+
   describe('Dynamic context', () => {
     testFormula('Amount', (variables: string[])=> {
       assert(variables.length === 1);
