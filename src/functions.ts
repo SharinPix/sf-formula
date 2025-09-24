@@ -281,4 +281,33 @@ export const defaultFunctions: Record<string, (...args: Array<()=> unknown>) => 
     const values = multiPicklist.split(';');
     return values.includes(value);
   },
+
+  'COUNTMATCHES': (...args: Array<() => unknown>) => {
+    const [sourceArg, searchArg] = validateArgs(args, {
+      min: 2,
+      max: 2,
+    });
+
+    const source = computeArg(sourceArg);
+    const searchValue = computeArg(searchArg);
+
+    if (Array.isArray(source)) {
+      return source.filter((item) => item === searchValue).length;
+    }
+
+    if (typeof source === 'string') {
+      if (typeof searchValue !== 'string') {
+        throw new Error('Argument 2 of COUNTMATCHES must also be a string');
+      }
+
+      if (searchValue === '')  return 0;
+
+      const escaped = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escaped, 'g');
+
+      return source.match(regex)?.length || 0;
+    }
+
+    throw new Error('Argument 1 of COUNTMATCHES must be a string or an array');
+  },
 }
