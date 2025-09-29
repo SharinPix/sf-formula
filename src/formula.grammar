@@ -6,13 +6,14 @@ AndExpr { CompExpr (AndOperator CompExpr)* }
 CompExpr { AddExpr (CompOperator AddExpr)* }
 AddExpr { MulExpr (AddOperator MulExpr)* }
 MulExpr { Term (MulOperator Term)* }
-Term { Number | String | Boolean | Function | parenExpr | Variable }
+Term { Number | String | Boolean | Function | parenExpr | Variable | Array }
 parenExpr { "(" expr ")" }
 Variable { VariableName ("." VariableAttribute)* }
 VariableName { identifier }
 VariableAttribute { identifier }
 Function { FunctionName "(" (expr ("," expr)*)? ")" }
 FunctionName { identifier }
+Array { "[" (expr ("," expr)*)? "]" }
 String { string }
 
 @skip { space }
