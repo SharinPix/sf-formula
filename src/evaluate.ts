@@ -1,5 +1,5 @@
 import { Tree, TreeCursor } from "@lezer/common";
-import { FormulaText, Number, MulExpr, String, Boolean, MulOperator, Term, AddOperator, Variable, Function, AddExpr, OrExpr, AndExpr, AndOperator, OrOperator, CompExpr, CompOperator } from "./parser.terms";
+import { FormulaText, Number, MulExpr, String, Boolean, MulOperator, Term, AddOperator, Variable, Function, AddExpr, OrExpr, AndExpr, AndOperator, OrOperator, CompExpr, CompOperator, Array } from "./parser.terms";
 import type { Context, Options } from "./formula";
 
 function evaluate(tree: Tree, input: string, context: Context = {}, options: Options = { functions: {}}): unknown {
@@ -56,6 +56,18 @@ function evaluate(tree: Tree, input: string, context: Context = {}, options: Opt
         functionCursor.parent();
         throw new Error(e.message + ' in ' + text(functionCursor));
       }
+    }
+    const evaluateArray = (cursor: TreeCursor): unknown[] => {
+      const elements: unknown[] = [];
+      if(!cursor.firstChild()) {
+        cursor.parent();
+        return elements;
+      }
+      do {
+        elements.push(evaluateNode(cursor));
+      } while (cursor.nextSibling())
+      cursor.parent();
+      return elements;
     }
     const eachChild = (callback: (index: number) => void): void => {
       let index = 0;
@@ -193,6 +205,8 @@ function evaluate(tree: Tree, input: string, context: Context = {}, options: Opt
         return evaluateVariable(cursor);
       case Function:
         return evaluateFunction(cursor);
+      case Array:
+        return evaluateArray(cursor);
       default:
         if(nodeType === 0) return undefined;
         throw new Error(`Unknown node type: ${nodeType} ${text(cursor)}`);
