@@ -30,7 +30,9 @@ class FormulaDemo {
       balance: 1500.75,
       skills: "JavaScript;TypeScript;React;Node.js",
       colors: "Red;Blue;Green",
-      departments: "Sales;Marketing;Engineering"
+      departments: "Sales;Marketing;Engineering",
+      items: ["Passed", "Failed", "Passed"],
+      issues: [3, 1, 3]
     };
 
     constructor() {

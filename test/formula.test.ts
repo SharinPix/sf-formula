@@ -246,7 +246,10 @@ describe('formula_eval', () => {
   describe('functions', () => {
     testFormula('LEN("Hello")', {}, 5, 'LEN function');
     testFormula('LEN("")', {}, 0, 'LEN function');
-    testFormulaError('LEN(123)', {}, 'Argument should be a string in LEN(123)', 'LEN function');
+    testFormula('LEN([1, 2, 3])', {}, 3, 'LEN function with array');
+    testFormula('LEN([])', {}, 0, 'LEN function with empty array');
+
+    testFormulaError('LEN(123)', {}, 'Argument should be a string or a list in LEN(123)', 'LEN function');
 
     testFormula('FLOOR(5.7)', {}, 5, 'FLOOR function with positive number');
     testFormula('FLOOR(5.2)', {}, 5, 'FLOOR function with positive number');
@@ -276,12 +279,14 @@ describe('formula_eval', () => {
     testFormulaError('BLANKVALUE("test")', {}, 'Not enough arguments 1/2 in BLANKVALUE("test")', 'BLANKVALUE with 1 argument');
   });
 
-  describe('INCLUDES - Multi-picklist function', () => {
+  describe('INCLUDES - function', () => {
     testFormula('INCLUDES("1;2;3;4;5", "3")', {}, true, 'INCLUDES finds value in multi-picklist');
     testFormula('INCLUDES("1;2;3;4;5", "6")', {}, false, 'INCLUDES does not find value in multi-picklist');
     testFormula('INCLUDES("Option A;Option B;Option C", "Option B")', {}, true, 'INCLUDES finds text value in multi-picklist');
     testFormula('INCLUDES("Option A;Option B;Option C", "Option D")', {}, false, 'INCLUDES does not find text value in multi-picklist');
-    testFormula('INCLUDES("Apple;Banana;Orange", "App")', {}, false, 'INCLUDES does not do partial matches');
+    testFormula('INCLUDES("Apple;Banana;Orange", "App")', {}, true, 'INCLUDES does partial matches');
+    testFormula('INCLUDES(" App ", "App")', {}, true, 'INCLUDES finds exact match with whitespace');
+    testFormula('INCLUDES(" App ", "app")', {}, false, 'INCLUDES is case sensitive');
     testFormula('INCLUDES("SingleValue", "SingleValue")', {}, true, 'INCLUDES finds exact match with single value');
 
     testFormula('INCLUDES("1;2;3", TEXT(2))', {}, true, 'INCLUDES finds number converted to string in multi-picklist');
@@ -295,14 +300,71 @@ describe('formula_eval', () => {
     testFormula('INCLUDES(MultiPicklist, "B")', { MultiPicklist: "A;B;C" }, true, 'INCLUDES with variable containing multi-picklist');
     testFormula('INCLUDES(MultiPicklist, "D")', { MultiPicklist: "A;B;C" }, false, 'INCLUDES with variable not containing value');
 
+    testFormula('INCLUDES(["Option A", "Option B", "Option C"], "Option B")', {}, true, 'INCLUDES finds text value in array');
+    testFormula('INCLUDES(["Option A", "Option B", "Option C"], "Option D")', {}, false, 'INCLUDES does not find text value in array');
+    testFormula('INCLUDES(["1", "2", "3"], 3)', {}, false, 'INCLUDES does not find number value in text array');
+    testFormula('INCLUDES([1, 2, 3], 3)', {}, true, 'INCLUDES does finds number value in number array');
+
     testFormulaError('INCLUDES("value")', {}, 'Not enough arguments 1/2 in INCLUDES("value")', 'INCLUDES with 1 argument');
     testFormulaError('INCLUDES()', {}, 'Not enough arguments 0/2 in INCLUDES()', 'INCLUDES with no arguments');
     testFormulaError('INCLUDES("a", "b", "c")', {}, 'Too many arguments 3/2 in INCLUDES("a", "b", "c")', 'INCLUDES with too many arguments');
 
     testFormulaError('INCLUDES("1;2;3", 2)', {}, 'Argument 2 of INCLUDES must be a string', 'INCLUDES with number argument');
-    testFormulaError('INCLUDES(123, "2")', {}, 'Argument 1 of INCLUDES must be a string', 'INCLUDES with number multi-picklist');
-    testFormulaError('INCLUDES(true, "value")', {}, 'Argument 1 of INCLUDES must be a string', 'INCLUDES with boolean multi-picklist');
+    testFormulaError('INCLUDES(123, "2")', {}, 'Argument 1 of INCLUDES must be a string or a list', 'INCLUDES with number multi-picklist');
+    testFormulaError('INCLUDES(true, "value")', {}, 'Argument 1 of INCLUDES must be a string or a list', 'INCLUDES with boolean multi-picklist');
     testFormulaError('INCLUDES("value", false)', {}, 'Argument 2 of INCLUDES must be a string', 'INCLUDES with boolean value');
+  });
+
+  describe('COUNTMATCHES', () => {
+    testFormula('COUNTMATCHES("2   0 22", "2")', {}, 3, 'COUNTMATCHES counts occurrences of a string in a string');
+    testFormula('COUNTMATCHES("2   0 22", "0")', {}, 1, 'COUNTMATCHES counts occurrences of a string in a string 2');
+    testFormula('COUNTMATCHES("passed passed failed", "failed")', {}, 1, 'COUNTMATCHES counts occurrences of a string in a string 3');
+    testFormula('COUNTMATCHES("passed passed failed", "pass")', {}, 2, 'COUNTMATCHES counts occurrences of a string in a string 4');
+    testFormula('COUNTMATCHES("passed passed failed", "Pass")', {}, 0, 'COUNTMATCHES is case sensitive');
+    testFormula('COUNTMATCHES("2   0 22", "")', {}, 0, 'COUNTMATCHES returns 0 when searching for empty string');
+    testFormula('COUNTMATCHES("2   0 22", "3")', {}, 0, 'COUNTMATCHES returns 0 when searching for non-existent string');
+    testFormula('COUNTMATCHES(listString, "2")', { listString: "2   0 22"}, 3, 'COUNTMATCHES with listString variable');
+
+    testFormula('COUNTMATCHES(["passed", "passed", "failed"], "passed")', {}, 2, 'COUNTMATCHES counts occurrences of a string in an array');
+    testFormula('COUNTMATCHES(["passed", "passed", "failed"], "Passed")', {}, 0, 'COUNTMATCHES is case sensitive 2');
+    testFormula('COUNTMATCHES(["passed", "", "failed"], "")', {}, 1, 'COUNTMATCHES counts occurrences of a string in an array 2');
+    testFormula('COUNTMATCHES(list, "passed")', { list: ["passed", "passed", "failed"]}, 2, 'COUNTMATCHES with array variable');
+
+    testFormula('COUNTMATCHES([1, 2, 2], 2)', {}, 2, 'COUNTMATCHES counts occurrences of a number in an array');
+    testFormula('COUNTMATCHES([1, 0, 1], 0)', {}, 1, 'COUNTMATCHES counts occurrences of a number in an array 2');
+    testFormula('COUNTMATCHES([1, 2, 2], 3)', {}, 0, 'COUNTMATCHES returns 0 when searching for non-existent number in an array');
+    testFormula('COUNTMATCHES([1, 2, 2], "2")', {}, 0, 'COUNTMATCHES returns 0 when searching for string in a number array');
+
+    testFormula('COUNTMATCHES([false, true, false], true)', {}, 1, 'COUNTMATCHES counts occurrences of a boolean in an array');
+    testFormula('COUNTMATCHES([false, true, false], false)', {}, 2, 'COUNTMATCHES counts occurrences of a boolean in an array 2');
+    testFormula('COUNTMATCHES([false, true, false], "true")', {}, 0, 'COUNTMATCHES returns 0 when searching for string in a boolean array');
+
+    testFormulaError('COUNTMATCHES("1;2;3", 2)', {}, 'Argument 2 of COUNTMATCHES must also be a string', 'COUNTMATCHES with first argument string and second argument not string');
+    testFormulaError('COUNTMATCHES(2, 2)', {}, 'Argument 1 of COUNTMATCHES must be a string or a list', 'COUNTMATCHES with first argument not string or array');
+    testFormulaError('COUNTMATCHES(true, "value")', {}, 'Argument 1 of COUNTMATCHES must be a string or a list', 'COUNTMATCHES with boolean first argument');
+    testFormulaError('COUNTMATCHES(null, "value")', {}, 'Argument 1 of COUNTMATCHES must be a string or a list', 'COUNTMATCHES with null first argument');
+    testFormulaError('COUNTMATCHES([false, true, false], "true", "true")', {}, 'Too many arguments 3/2 in COUNTMATCHES([false, true, false], "true", "true")', 'COUNTMATCHES with too many arguments');
+  });
+
+  describe('SUM', () => {
+    testFormula('SUM([1, 2, 3])', {}, 6, 'SUM array of positive numbers');
+    testFormula('SUM([-1, -2, -3])', {}, -6, 'SUM array of negative numbers');
+    testFormula('SUM([1, -2, 3])', {}, 2, 'SUM array of mixed positive and negative numbers');
+    testFormula('SUM([0, 0, 0])', {}, 0, 'SUM array of zeros');
+    testFormula('SUM([5])', {}, 5, 'SUM single number');
+    testFormula('SUM([])', {}, 0, 'SUM empty array');
+    testFormula('SUM([1.5, 2.5, 3.5])', {}, 7.5, 'SUM array of decimal numbers');
+    testFormula('SUM([-1.5, 2.5, -3.5])', {}, -2.5, 'SUM array of mixed decimal numbers');
+    testFormula('SUM([1, 0, -1])', {}, 0, 'SUM array that sums to zero');
+    testFormula('SUM(numbers)', { numbers: [1, 2, 3, 4, 5] }, 15, 'SUM with variable containing array');
+    testFormula('SUM(single)', { single: [42] }, 42, 'SUM with variable containing single number');
+
+    testFormulaError('SUM(123)', {}, 'Argument 1 of SUM must be a list', 'SUM with non-array argument');
+    testFormulaError('SUM("hello")', {}, 'Argument 1 of SUM must be a list', 'SUM with string argument');
+    testFormulaError('SUM(true)', {}, 'Argument 1 of SUM must be a list', 'SUM with boolean argument');
+    testFormulaError('SUM(null)', {}, 'Argument 1 of SUM must be a list', 'SUM with null argument');
+    testFormulaError('SUM([1, "hello", 3])', {}, 'All elements in the list must be numbers', 'SUM with array containing non-number');
+    testFormulaError('SUM(["1", "2", "3"])', {}, 'All elements in the list must be numbers', 'SUM with array of strings');
   });
 
   describe('Dynamic context', () => {

@@ -62,8 +62,10 @@ export const defaultFunctions: Record<string, (...args: Array<()=> unknown>) => 
   },
   'LEN': (...args: Array<() => unknown>) => {
     const value = computeArg(validateArgs(args, {min: 1, max: 1})[0]);
-    if(typeof value !== 'string') throw new Error('Argument should be a string')
-    return value.length;
+    if(Array.isArray(value)) return value.length;
+    if(typeof value === 'string') return value.length;
+
+    throw new Error('Argument should be a string or a list')
   },
   'IF': (...args: Array<() => unknown>) => {
     const [ifArg, thenArg, elseArg] = validateArgs(args, {min: 2, max: 3});
@@ -269,16 +271,66 @@ export const defaultFunctions: Record<string, (...args: Array<()=> unknown>) => 
     }
   },
   'INCLUDES': (...args: Array<() => unknown>) => {
-    const [multiPicklistArg, valueArg] = validateArgs(args, {min: 2, max: 2});
-    const multiPicklist = computeArg(multiPicklistArg);
-    const value = computeArg(valueArg);
+    const [listArg, searchValueArg] = validateArgs(args, {min: 2, max: 2});
+    const list = computeArg(listArg);
+    const searchValue = computeArg(searchValueArg);
 
-    if (multiPicklist === null || multiPicklist === undefined) return false;
-    if (typeof multiPicklist !== 'string') throw new Error('Argument 1 of INCLUDES must be a string');
-    if (typeof value !== 'string') throw new Error('Argument 2 of INCLUDES must be a string');
-    if (multiPicklist === '') return false;
+    if (list === null || list === undefined) return false;
+    if(Array.isArray(list)) return list.includes(searchValue);
 
-    const values = multiPicklist.split(';');
-    return values.includes(value);
+    if (typeof list === 'string') {
+      if (typeof searchValue !== 'string') throw new Error('Argument 2 of INCLUDES must be a string');
+      if (searchValue === '')  return false;
+
+      const escaped = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escaped, 'g');
+
+      return !!list.match(regex)?.length
+    }
+
+    throw new Error('Argument 1 of INCLUDES must be a string or a list');
+  },
+
+  'COUNTMATCHES': (...args: Array<() => unknown>) => {
+    const [sourceArg, searchArg] = validateArgs(args, {
+      min: 2,
+      max: 2,
+    });
+
+    const source = computeArg(sourceArg);
+    const searchValue = computeArg(searchArg);
+
+    if (Array.isArray(source)) {
+      return source.filter((item) => item === searchValue).length;
+    }
+
+    if (typeof source === 'string') {
+      if (typeof searchValue !== 'string') {
+        throw new Error('Argument 2 of COUNTMATCHES must also be a string');
+      }
+
+      if (searchValue === '')  return 0;
+
+      const escaped = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escaped, 'g');
+
+      return source.match(regex)?.length || 0;
+    }
+
+    throw new Error('Argument 1 of COUNTMATCHES must be a string or a list');
+  },
+
+  SUM: (...args: Array<() => unknown>) => {
+    const [arrayArg] = validateArgs(args, { min: 1, max: 1 });
+    const array = computeArg(arrayArg);
+
+    if (!Array.isArray(array))
+      throw new Error('Argument 1 of SUM must be a list');
+
+    return array.reduce((sum, item) => {
+      if (typeof item !== 'number')
+        throw new Error('All elements in the list must be numbers');
+      return sum + item;
+    }, 0);
   },
 }
