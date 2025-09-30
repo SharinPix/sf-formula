@@ -246,7 +246,10 @@ describe('formula_eval', () => {
   describe('functions', () => {
     testFormula('LEN("Hello")', {}, 5, 'LEN function');
     testFormula('LEN("")', {}, 0, 'LEN function');
-    testFormulaError('LEN(123)', {}, 'Argument should be a string in LEN(123)', 'LEN function');
+    testFormula('LEN([1, 2, 3])', {}, 3, 'LEN function with array');
+    testFormula('LEN([])', {}, 0, 'LEN function with empty array');
+
+    testFormulaError('LEN(123)', {}, 'Argument should be a string or a list in LEN(123)', 'LEN function');
 
     testFormula('FLOOR(5.7)', {}, 5, 'FLOOR function with positive number');
     testFormula('FLOOR(5.2)', {}, 5, 'FLOOR function with positive number');

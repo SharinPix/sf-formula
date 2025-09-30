@@ -62,8 +62,10 @@ export const defaultFunctions: Record<string, (...args: Array<()=> unknown>) => 
   },
   'LEN': (...args: Array<() => unknown>) => {
     const value = computeArg(validateArgs(args, {min: 1, max: 1})[0]);
-    if(typeof value !== 'string') throw new Error('Argument should be a string')
-    return value.length;
+    if(Array.isArray(value)) return value.length;
+    if(typeof value === 'string') return value.length;
+
+    throw new Error('Argument should be a string or a list')
   },
   'IF': (...args: Array<() => unknown>) => {
     const [ifArg, thenArg, elseArg] = validateArgs(args, {min: 2, max: 3});
