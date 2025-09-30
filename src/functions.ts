@@ -319,4 +319,18 @@ export const defaultFunctions: Record<string, (...args: Array<()=> unknown>) => 
 
     throw new Error('Argument 1 of COUNTMATCHES must be a string or a list');
   },
+
+  SUM: (...args: Array<() => unknown>) => {
+    const [arrayArg] = validateArgs(args, { min: 1, max: 1 });
+    const array = computeArg(arrayArg);
+
+    if (!Array.isArray(array))
+      throw new Error('Argument 1 of SUM must be a list');
+
+    return array.reduce((sum, item) => {
+      if (typeof item !== 'number')
+        throw new Error('All elements in the list must be numbers');
+      return sum + item;
+    }, 0);
+  },
 }
