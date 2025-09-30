@@ -271,17 +271,24 @@ export const defaultFunctions: Record<string, (...args: Array<()=> unknown>) => 
     }
   },
   'INCLUDES': (...args: Array<() => unknown>) => {
-    const [multiPicklistArg, valueArg] = validateArgs(args, {min: 2, max: 2});
-    const multiPicklist = computeArg(multiPicklistArg);
-    const value = computeArg(valueArg);
+    const [listArg, searchValueArg] = validateArgs(args, {min: 2, max: 2});
+    const list = computeArg(listArg);
+    const searchValue = computeArg(searchValueArg);
 
-    if (multiPicklist === null || multiPicklist === undefined) return false;
-    if (typeof multiPicklist !== 'string') throw new Error('Argument 1 of INCLUDES must be a string');
-    if (typeof value !== 'string') throw new Error('Argument 2 of INCLUDES must be a string');
-    if (multiPicklist === '') return false;
+    if (list === null || list === undefined) return false;
+    if(Array.isArray(list)) return list.includes(searchValue);
 
-    const values = multiPicklist.split(';');
-    return values.includes(value);
+    if (typeof list === 'string') {
+      if (typeof searchValue !== 'string') throw new Error('Argument 2 of INCLUDES must be a string');
+      if (searchValue === '')  return false;
+
+      const escaped = searchValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(escaped, 'g');
+
+      return !!list.match(regex)?.length
+    }
+
+    throw new Error('Argument 1 of INCLUDES must be a string or a list');
   },
 
   'COUNTMATCHES': (...args: Array<() => unknown>) => {
