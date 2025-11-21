@@ -333,4 +333,15 @@ export const defaultFunctions: Record<string, (...args: Array<()=> unknown>) => 
       return sum + item;
     }, 0);
   },
+
+  REMOVEBLANKS: (...args: Array<() => unknown>) => {
+    const [arrayArg] = validateArgs(args, { min: 1, max: 1 });
+    const array = computeArg(arrayArg);
+    if (!Array.isArray(array))
+      throw new Error('Argument 1 of REMOVEBLANKS must be a list');
+
+    return array.filter(
+      (item) => item !== null && item !== undefined && item !== ''
+    );
+  },
 }

@@ -12,6 +12,13 @@ describe('formula_eval', () => {
     });*/
   }
 
+  function testFormulaStrictEqual(formula: string, context: Context, expected: unknown, description: string) {
+    const title = `${description} ${formula} => ${JSON.stringify(expected)}`;
+    it(title, () => {
+      expect(formulaEval(formula, context)).toStrictEqual(expected);
+    });
+  }
+
   function testFormulaWithOptions(formula: string, context: Context, options: Options, expected: unknown, description: string) {
     const title = `${description} ${formula} => ${JSON.stringify(expected)}`;
     it(title, () => {
@@ -365,6 +372,21 @@ describe('formula_eval', () => {
     testFormulaError('SUM(null)', {}, 'Argument 1 of SUM must be a list', 'SUM with null argument');
     testFormulaError('SUM([1, "hello", 3])', {}, 'All elements in the list must be numbers', 'SUM with array containing non-number');
     testFormulaError('SUM(["1", "2", "3"])', {}, 'All elements in the list must be numbers', 'SUM with array of strings');
+  });
+
+  describe('REMOVEBLANKS', () => {
+    testFormulaStrictEqual('REMOVEBLANKS(["", "Hello", "", "World", ""])', {}, ["Hello", "World"], 'REMOVEBLANKS removes empty strings from array');
+    testFormulaStrictEqual('REMOVEBLANKS(["Hello", "World", " "])', {}, ["Hello", "World", " "], 'REMOVEBLANKS leaves non-empty strings in array');
+    testFormulaStrictEqual('REMOVEBLANKS([1, 2, 3])', {}, [1, 2, 3], 'REMOVEBLANKS leaves numbers in array');
+    testFormulaStrictEqual('REMOVEBLANKS([null, undefined, "Hello", "", 0, false])', {}, ["Hello", 0, false], 'REMOVEBLANKS removes null, undefined, and empty strings');
+    testFormulaStrictEqual('REMOVEBLANKS([undefined, undefined, undefined])', {}, [], 'REMOVEBLANKS removes undefined from array containing undefined');
+    testFormulaStrictEqual('REMOVEBLANKS(numbers)', {numbers: [0,undefined,1, undefined, 2]}, [0,1,2], 'REMOVEBLANKS removes undefined from number array');
+
+    testFormulaError('REMOVEBLANKS(123)', {}, 'Argument 1 of REMOVEBLANKS must be a list', 'REMOVEBLANKS with non-array argument');
+    testFormulaError('REMOVEBLANKS("hello")', {}, 'Argument 1 of REMOVEBLANKS must be a list', 'REMOVEBLANKS with string argument');
+    testFormulaError('REMOVEBLANKS(true)', {}, 'Argument 1 of REMOVEBLANKS must be a list', 'REMOVEBLANKS with boolean argument');
+    testFormulaError('REMOVEBLANKS(null)', {}, 'Argument 1 of REMOVEBLANKS must be a list', 'REMOVEBLANKS with null argument');
+    testFormulaError('REMOVEBLANKS(undefined)', {}, 'Argument 1 of REMOVEBLANKS must be a list', 'REMOVEBLANKS with undefined argument');
   });
 
   describe('Dynamic context', () => {
