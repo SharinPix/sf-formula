@@ -389,6 +389,31 @@ describe('formula_eval', () => {
     testFormulaError('REMOVEBLANKS(undefined)', {}, 'Argument 1 of REMOVEBLANKS must be a list', 'REMOVEBLANKS with undefined argument');
   });
 
+  describe('JOIN', () => {
+    testFormula('JOIN(["Hello", "World"], ";")', {}, "Hello;World", 'JOIN joins array with separator');
+    testFormula('JOIN(["Hello", "World"], "")', {}, "HelloWorld", 'JOIN joins array with empty string separator');
+    testFormula('JOIN(["Hello"], " ")', {}, "Hello", 'JOIN joins array with one element');
+    testFormula('JOIN(empty, " ")', {empty: []}, "", 'JOIN joins empty array with separator');
+
+    testFormula('JOIN(numbers, ";")', {numbers: [1, 2, 3]}, "1;2;3", 'JOIN joins array with separator');
+    testFormula('JOIN(numbers, " ")', {numbers: [1, 2, 3]}, "1 2 3", 'JOIN joins array with space separator');
+    testFormula('JOIN(numbers, "")', {numbers: [1, 2, 3]}, "123", 'JOIN joins array with empty string separator');
+
+    testFormula('JOIN(booleans, ";")', {booleans: [true, true, false]}, "true;true;false", 'JOIN joins boolean array with separator');
+
+    testFormulaError('JOIN(123, ";")', {}, 'Argument 1 of JOIN must be a list', 'JOIN with non-array argument');
+    testFormulaError('JOIN("hello", ";")', {}, 'Argument 1 of JOIN must be a list', 'JOIN with string argument');
+    testFormulaError('JOIN(true, ";")', {}, 'Argument 1 of JOIN must be a list', 'JOIN with boolean argument');
+    testFormulaError('JOIN(null, ";")', {}, 'Argument 1 of JOIN must be a list', 'JOIN with null argument');
+    testFormulaError('JOIN(undefined, ";")', {}, 'Argument 1 of JOIN must be a list', 'JOIN with undefined argument');
+
+    testFormulaError('JOIN([1, 2, 3], 123)', {}, 'Argument 2 of JOIN must be a string', 'JOIN with separator not string');
+    testFormulaError('JOIN([1, 2, 3], true)', {}, 'Argument 2 of JOIN must be a string', 'JOIN with separator not string');
+    testFormulaError('JOIN([1, 2, 3], null)', {}, 'Argument 2 of JOIN must be a string', 'JOIN with separator not string');
+    testFormulaError('JOIN([1, 2, 3], undefined)', {}, 'Argument 2 of JOIN must be a string', 'JOIN with separator not string');
+    testFormulaError('JOIN([1, 2, 3], [1, 2, 3])', {}, 'Argument 2 of JOIN must be a string', 'JOIN with separator not string');
+  });
+
   describe('Dynamic context', () => {
     testFormula('Amount', (variables: string[])=> {
       assert(variables.length === 1);

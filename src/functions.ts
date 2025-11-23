@@ -344,4 +344,17 @@ export const defaultFunctions: Record<string, (...args: Array<()=> unknown>) => 
       (item) => item !== null && item !== undefined && item !== ''
     );
   },
+
+  JOIN: (...args: Array<() => unknown>) => {
+    const [arrayArg, separatorArg] = validateArgs(args, { min: 2, max: 2 });
+    const array = computeArg(arrayArg);
+    const separator = computeArg(separatorArg);
+    if (!Array.isArray(array))
+      throw new Error('Argument 1 of JOIN must be a list');
+
+    if (typeof separator !== 'string')
+      throw new Error('Argument 2 of JOIN must be a string');
+
+    return array.join(separator);
+  },
 }
