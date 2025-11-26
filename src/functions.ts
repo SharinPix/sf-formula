@@ -357,4 +357,16 @@ export const defaultFunctions: Record<string, (...args: Array<()=> unknown>) => 
 
     return array.join(separator);
   },
+
+  ADDDAYS: (...args: Array<() => unknown>) => {
+    const [dateArg, daysArg] = validateArgs(args, { min: 2, max: 2 });
+    const dateValue = computeArg(dateArg);
+    const days = computeArg(daysArg);
+    if (!(dateValue instanceof Date)) throw new Error('Argument 1 of ADDDAYS must be a date');
+    if (typeof days !== 'number' || isNaN(days) || !Number.isInteger(days) || days <= 0) throw new Error('Argument 2 of ADDDAYS must be a positive integer');
+    
+    const result = dateValue;
+    result.setDate(result.getDate() + days);
+    return result;
+  },
 }
