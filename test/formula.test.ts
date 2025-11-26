@@ -389,6 +389,17 @@ describe('formula_eval', () => {
     testFormulaError('REMOVEBLANKS(undefined)', {}, 'Argument 1 of REMOVEBLANKS must be a list', 'REMOVEBLANKS with undefined argument');
   });
 
+  describe('ADDDAYS', () => {
+    testFormula('ADDDAYS("2024-01-01", 3)', {}, "2024-01-04", 'ADDDAYS adds days to date string');
+    testFormula('ADDDAYS(orderDate, 5)', { orderDate: "2024-01-01" }, "2024-01-06", 'ADDDAYS adds days to date string');
+    testFormulaError('ADDDAYS("not-a-date", 1)', {}, 'Argument 1 of ADDDAYS must be a valid date in ADDDAYS("not-a-date", 1)', 'ADDDAYS invalid date string');
+    testFormulaError('ADDDAYS(123, 1)', {}, 'Argument 1 of ADDDAYS must be a date in ADDDAYS(123, 1)', 'ADDDAYS non-date first argument');
+    testFormulaError('ADDDAYS("2024-01-01", "2")', {}, 'Argument 2 of ADDDAYS must be a number in ADDDAYS("2024-01-01", "2")', 'ADDDAYS non-number days');
+    testFormulaError('ADDDAYS("2024-01-01", 0)', {}, 'Argument 2 of ADDDAYS must be a positive integer in ADDDAYS("2024-01-01", 0)', 'ADDDAYS non-positive days');
+    testFormulaError('ADDDAYS("2024-01-01", -1)', {}, 'Argument 2 of ADDDAYS must be a positive integer in ADDDAYS("2024-01-01", -1)', 'ADDDAYS negative days');
+    testFormulaError('ADDDAYS("2024-01-01", 1)', {}, "2024-01-05T00:00:00.000Z", 'ADDDAYS adds days to date string');
+  });
+
   describe('JOIN', () => {
     testFormula('JOIN(["Hello", "World"], ";")', {}, "Hello;World", 'JOIN joins array with separator');
     testFormula('JOIN(["Hello", "World"], "")', {}, "HelloWorld", 'JOIN joins array with empty string separator');

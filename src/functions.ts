@@ -357,4 +357,17 @@ export const defaultFunctions: Record<string, (...args: Array<()=> unknown>) => 
 
     return array.join(separator);
   },
+
+  ADDDAYS: (...args: Array<() => unknown>) => {
+    const [dateArg, daysArg] = validateArgs(args, { min: 2, max: 2 });
+    const dateValue = computeArg(dateArg);
+
+    if (typeof dateValue !== 'string') throw new Error('Argument 1 of ADDDAYS must be a string');
+    if (typeof daysArg !== 'number') throw new Error('Argument 2 of ADDDAYS must be a number');
+
+    const result = new Date(dateValue);
+    result.setDate(result.getDate() + daysArg);
+
+    return result.toISOString();
+  },
 }
