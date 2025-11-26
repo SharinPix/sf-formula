@@ -423,10 +423,10 @@ describe('formula_eval', () => {
     testFormulaError('ADDDAYS(date, true)', {date: new Date("2024-01-01")}, 'Argument 2 of ADDDAYS must be a positive integer', 'ADDDAYS with boolean argument');
     testFormulaError('ADDDAYS(date, null)', {date: new Date("2024-01-01")}, 'Argument 2 of ADDDAYS must be a positive integer', 'ADDDAYS with null argument');
     testFormulaError('ADDDAYS(date, undefined)', {date: new Date("2024-01-01")}, 'Argument 2 of ADDDAYS must be a positive integer', 'ADDDAYS with undefined argument');
-    testFormulaError('ADDDAYS(123, 1)', {date: new Date("2024-01-01")}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with number argument');
-    testFormulaError('ADDDAYS(true, 1)', {date: new Date("2024-01-01")}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with boolean argument');
-    testFormulaError('ADDDAYS(null, 1)', {date: new Date("2024-01-01")}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with null argument');
-    testFormulaError('ADDDAYS(undefined, 1)', {date: new Date("2024-01-01")}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with undefined argument');
+    testFormulaError('ADDDAYS(123, 1)', {}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with number argument');
+    testFormulaError('ADDDAYS(true, 1)', {}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with boolean argument');
+    testFormulaError('ADDDAYS(null, 1)', {}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with null argument');
+    testFormulaError('ADDDAYS(undefined, 1)', {}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with undefined argument');
   });
 
   describe('Dynamic context', () => {
