@@ -32,7 +32,8 @@ class FormulaDemo {
       colors: "Red;Blue;Green",
       departments: "Sales;Marketing;Engineering",
       items: ["Passed", "Failed", "Passed"],
-      issues: [3, 1, 3]
+      issues: [3, 1, 3],
+      date: new Date('2024-01-01')
     };
 
     constructor() {
