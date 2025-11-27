@@ -435,19 +435,19 @@ describe('formula_eval', () => {
     testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-01-01"), date2: new Date("2024-01-01")}, 0, 'DAYSBETWEEN between two dates');
     testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-01-01"), date2: new Date("2024-01-03")}, 2, 'DAYSBETWEEN between two dates');
     testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-01-03"), date2: new Date("2024-01-01")}, -2, 'DAYSBETWEEN between two dates');
-    testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-02-03"), date2: new Date("2024-01-01")}, 31, 'DAYSBETWEEN between two dates');
-    testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-03-01"), date2: new Date("2024-01-29")}, 364, 'DAYSBETWEEN between two dates');
+    testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-01-01"), date2: new Date("2024-02-03")}, 33, 'DAYSBETWEEN between two dates');
+    testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-03-01"), date2: new Date("2025-01-29")}, 334, 'DAYSBETWEEN between two dates');
 
-    testFormulaError('DAYSBETWEEN("1", date)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a positive integer', 'DAYSBETWEEN with string argument');
-    testFormulaError('DAYSBETWEEN(1.5, date)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a positive integer', 'DAYSBETWEEN with number argument');
-    testFormulaError('DAYSBETWEEN(true, date)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a positive integer', 'DAYSBETWEEN with boolean argument');
-    testFormulaError('DAYSBETWEEN(null, date)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a positive integer', 'DAYSBETWEEN with null argument');
-    testFormulaError('DAYSBETWEEN(undefined, date)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a positive integer', 'DAYSBETWEEN with undefined argument');
-    testFormulaError('DAYSBETWEEN(date, "1")', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a positive integer', 'DAYSBETWEEN with string argument');
-    testFormulaError('DAYSBETWEEN(date, 1.5)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a positive integer', 'DAYSBETWEEN with number argument');
-    testFormulaError('DAYSBETWEEN(date, true)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a positive integer', 'DAYSBETWEEN with boolean argument');
-    testFormulaError('DAYSBETWEEN(date, null)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a positive integer', 'DAYSBETWEEN with null argument');
-    testFormulaError('DAYSBETWEEN(date, undefined)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a positive integer', 'DAYSBETWEEN with undefined argument');
+    testFormulaError('DAYSBETWEEN("1", date)', {date: new Date("2024-01-01")}, 'Argument 1 of DAYSBETWEEN must be a date', 'DAYSBETWEEN with string argument');
+    testFormulaError('DAYSBETWEEN(1.5, date)', {date: new Date("2024-01-01")}, 'Argument 1 of DAYSBETWEEN must be a date', 'DAYSBETWEEN with number argument');
+    testFormulaError('DAYSBETWEEN(true, date)', {date: new Date("2024-01-01")}, 'Argument 1 of DAYSBETWEEN must be a date', 'DAYSBETWEEN with boolean argument');
+    testFormulaError('DAYSBETWEEN(null, date)', {date: new Date("2024-01-01")}, 'Argument 1 of DAYSBETWEEN must be a date', 'DAYSBETWEEN with null argument');
+    testFormulaError('DAYSBETWEEN(undefined, date)', {date: new Date("2024-01-01")}, 'Argument 1 of DAYSBETWEEN must be a date', 'DAYSBETWEEN with undefined argument');
+    testFormulaError('DAYSBETWEEN(date, "1")', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a date', 'DAYSBETWEEN with string argument');
+    testFormulaError('DAYSBETWEEN(date, 1.5)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a date', 'DAYSBETWEEN with number argument');
+    testFormulaError('DAYSBETWEEN(date, true)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a date', 'DAYSBETWEEN with boolean argument');
+    testFormulaError('DAYSBETWEEN(date, null)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a date', 'DAYSBETWEEN with null argument');
+    testFormulaError('DAYSBETWEEN(date, undefined)', {date: new Date("2024-01-01")}, 'Argument 2 of DAYSBETWEEN must be a date', 'DAYSBETWEEN with undefined argument');
   });
 
   describe('Dynamic context', () => {
