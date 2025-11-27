@@ -33,8 +33,8 @@ class FormulaDemo {
       departments: "Sales;Marketing;Engineering",
       items: ["Passed", "Failed", "Passed"],
       issues: [3, 1, 3],
-      date: new Date('2024-01-01'),
-      date1: new Date('2024-02-01')
+      date1: new Date('2024-02-01'),
+      date2: new Date('2024-01-01'),
     };
 
     constructor() {

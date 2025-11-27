@@ -433,10 +433,10 @@ describe('formula_eval', () => {
 
   describe('DAYSBETWEEN', () => {
     testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-01-01"), date2: new Date("2024-01-01")}, 0, 'DAYSBETWEEN between two dates');
-    testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-01-01"), date2: new Date("2024-01-03")}, 2, 'DAYSBETWEEN between two dates');
-    testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-01-03"), date2: new Date("2024-01-01")}, -2, 'DAYSBETWEEN between two dates');
-    testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-01-01"), date2: new Date("2024-02-03")}, 33, 'DAYSBETWEEN between two dates');
-    testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-03-01"), date2: new Date("2025-01-29")}, 334, 'DAYSBETWEEN between two dates');
+    testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-01-01"), date2: new Date("2024-01-03")}, -2, 'DAYSBETWEEN between two dates');
+    testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-01-03"), date2: new Date("2024-01-01")}, 2, 'DAYSBETWEEN between two dates');
+    testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2024-01-01"), date2: new Date("2024-02-03")}, -33, 'DAYSBETWEEN between two dates');
+    testFormula('DAYSBETWEEN(date1, date2)', {date1: new Date("2025-01-29"), date2: new Date("2024-03-01")}, 334, 'DAYSBETWEEN between two dates');
 
     testFormulaError('DAYSBETWEEN("1", date)', {date: new Date("2024-01-01")}, 'Argument 1 of DAYSBETWEEN must be a date', 'DAYSBETWEEN with string argument');
     testFormulaError('DAYSBETWEEN(1.5, date)', {date: new Date("2024-01-01")}, 'Argument 1 of DAYSBETWEEN must be a date', 'DAYSBETWEEN with number argument');
