@@ -54,6 +54,10 @@ export const functions: CompletionType[] = [
     label: 'ADDDAYS',
     apply: snippet(`ADDDAYS(\${value}, \${2})`),
   },
+  {
+    label: 'DAYSBETWEEN',
+    apply: snippet(`DAYSBETWEEN(\${value}, \${value})`),
+  },
 ]
 
 export const operators: CompletionType[] = '> < >= <= & + - * / AND OR'.split(' ').map((operator) => {
