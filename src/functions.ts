@@ -369,4 +369,13 @@ export const defaultFunctions: Record<string, (...args: Array<()=> unknown>) => 
     result.setDate(result.getDate() + days);
     return result;
   },
+
+  DAYSBETWEEN: (...args: Array<() => unknown>) => {
+    const [date1Arg, date2Arg] = validateArgs(args, { min: 2, max: 2 });
+    const date1 = computeArg(date1Arg);
+    const date2 = computeArg(date2Arg);
+    if (!(date1 instanceof Date)) throw new Error('Argument 1 of DAYSBETWEEN must be a date');
+    if (!(date2 instanceof Date)) throw new Error('Argument 2 of DAYSBETWEEN must be a date');
+    return Math.floor((date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24));
+  },
 }
