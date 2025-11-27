@@ -1,7 +1,7 @@
 import {completeFromList, snippet, type Completion as CompletionType } from "@codemirror/autocomplete"
 import { formulaLanguage } from './language';
 
-const singleArg: CompletionType[] = ['NOT', 'ABS', 'ACOS', 'ASIN', 'SIN', 'TAN', 'ATAN', 'ATAN2', 'EXP', 'LN', 'LOG', 'ISNUMBER','ISBLANK', 'ISNULL', 'TEXT','FLOOR', 'CEILING', 'LEN', 'MCEILING', 'MFLOOR', 'SQRT', 'SUM', 'REMOVEBLANKS', 'JOIN', 'ADDDAYS'].map((func)=> {
+const singleArg: CompletionType[] = ['NOT', 'ABS', 'ACOS', 'ASIN', 'SIN', 'TAN', 'ATAN', 'ATAN2', 'EXP', 'LN', 'LOG', 'ISNUMBER','ISBLANK', 'ISNULL', 'TEXT','FLOOR', 'CEILING', 'LEN', 'MCEILING', 'MFLOOR', 'SQRT', 'SUM', 'REMOVEBLANKS', 'JOIN'].map((func)=> {
   return {
     label: func,
     apply: snippet(`${func}(\${value})`),
@@ -49,6 +49,10 @@ export const functions: CompletionType[] = [
   {
     label: 'COUNTMATCHES',
     apply: snippet(`COUNTMATCHES(\${value}, \${"value"})`),
+  },
+  {
+    label: 'ADDDAYS',
+    apply: snippet(`ADDDAYS(\${value}, \${2})`),
   },
 ]
 
