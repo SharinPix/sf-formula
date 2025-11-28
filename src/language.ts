@@ -1,4 +1,9 @@
-import { foldInside, foldNodeProp, indentNodeProp, LRLanguage } from '@codemirror/language';
+import {
+  foldInside,
+  foldNodeProp,
+  indentNodeProp,
+  LRLanguage,
+} from '@codemirror/language';
 // import { parser } from './parser';
 import { formulaHighlight } from './highlight';
 
@@ -7,10 +12,11 @@ const parser = rawParser.configure({
   props: [
     formulaHighlight,
     indentNodeProp.add({
-      Application: context => context.column(context.node.from) + context.unit
+      Application: (context) =>
+        context.column(context.node.from) + context.unit,
     }),
     foldNodeProp.add({
-      Application: foldInside
+      Application: foldInside,
     }),
   ],
 });
@@ -18,8 +24,8 @@ export const formulaLanguage = LRLanguage.define({
   name: 'formula',
   parser: parser,
   languageData: {
-    closeBrackets: { brackets: ["(", '"'] },
-  }
+    closeBrackets: { brackets: ['(', '"'] },
+  },
 });
 
 export { parser };
