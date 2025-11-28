@@ -1025,55 +1025,125 @@ describe('formula_eval', () => {
   });
 
   describe('DATEVALUE', () => {
-    testFormulaStrictEqual('DATEVALUE("2024-01-01")', {}, new Date("2024-01-01"), 'DATEVALUE converts date string to date');
-    
-  testFormulaError(
-    'DATEVALUE(123)',
-    {},
-    'Argument 1 of DATEVALUE must be a string',
-    'DATEVALUE with number argument'
-  );
-  testFormulaError(
-    'DATEVALUE(true)',
-    {},
-    'Argument 1 of DATEVALUE must be a string',
-    'DATEVALUE with boolean argument'
-  );
-  testFormulaError(
-    'DATEVALUE(null)',
-    {},
-    'Argument 1 of DATEVALUE must be a string',
-    'DATEVALUE with null argument'
-  );
-  testFormulaError(
-    'DATEVALUE(undefined)',
-    {},
-    'Argument 1 of DATEVALUE must be a string',
-    'DATEVALUE with undefined argument'
-  );
-  testFormulaError(
-    'DATEVALUE("not-a-date")',
-    {},
-    'Argument 1 of DATEVALUE must be a valid date string',
-    'DATEVALUE with invalid string argument'
-  );
+    testFormulaStrictEqual(
+      'DATEVALUE("2024-01-01")',
+      {},
+      new Date('2024-01-01'),
+      'DATEVALUE converts date string to date'
+    );
+
+    testFormulaError(
+      'DATEVALUE(123)',
+      {},
+      'Argument 1 of DATEVALUE must be a string',
+      'DATEVALUE with number argument'
+    );
+    testFormulaError(
+      'DATEVALUE(true)',
+      {},
+      'Argument 1 of DATEVALUE must be a string',
+      'DATEVALUE with boolean argument'
+    );
+    testFormulaError(
+      'DATEVALUE(null)',
+      {},
+      'Argument 1 of DATEVALUE must be a string',
+      'DATEVALUE with null argument'
+    );
+    testFormulaError(
+      'DATEVALUE(undefined)',
+      {},
+      'Argument 1 of DATEVALUE must be a string',
+      'DATEVALUE with undefined argument'
+    );
+    testFormulaError(
+      'DATEVALUE("not-a-date")',
+      {},
+      'Argument 1 of DATEVALUE must be a valid date string',
+      'DATEVALUE with invalid string argument'
+    );
   });
 
   describe('ADDDAYS', () => {
-    testFormulaStrictEqual('ADDDAYS(date, 1)', {date: new Date("2024-01-01")}, new Date("2024-01-02"), 'ADDDAYS adds days to date string');
-    testFormulaStrictEqual('ADDDAYS(date, 50)', {date: new Date("2024-01-01")}, new Date("2024-02-20"), 'ADDDAYS adds days to date string');
-    testFormulaStrictEqual('ADDDAYS(date, 500)', {date: new Date("2024-01-01")}, new Date("2025-05-15"), 'ADDDAYS adds days to date string');
+    testFormulaStrictEqual(
+      'ADDDAYS(date, 1)',
+      { date: new Date('2024-01-01') },
+      new Date('2024-01-02'),
+      'ADDDAYS adds days to date string'
+    );
+    testFormulaStrictEqual(
+      'ADDDAYS(date, 50)',
+      { date: new Date('2024-01-01') },
+      new Date('2024-02-20'),
+      'ADDDAYS adds days to date string'
+    );
+    testFormulaStrictEqual(
+      'ADDDAYS(date, 500)',
+      { date: new Date('2024-01-01') },
+      new Date('2025-05-15'),
+      'ADDDAYS adds days to date string'
+    );
 
-    testFormulaError('ADDDAYS(date, "1")', {date: new Date("2024-01-01")}, 'Argument 2 of ADDDAYS must be a positive integer', 'ADDDAYS with string argument');
-    testFormulaError('ADDDAYS(date, 1.5)', {date: new Date("2024-01-01")}, 'Argument 2 of ADDDAYS must be a positive integer', 'ADDDAYS with number argument');
-    testFormulaError('ADDDAYS(date, true)', {date: new Date("2024-01-01")}, 'Argument 2 of ADDDAYS must be a positive integer', 'ADDDAYS with boolean argument');
-    testFormulaError('ADDDAYS(date, null)', {date: new Date("2024-01-01")}, 'Argument 2 of ADDDAYS must be a positive integer', 'ADDDAYS with null argument');
-    testFormulaError('ADDDAYS(date, undefined)', {date: new Date("2024-01-01")}, 'Argument 2 of ADDDAYS must be a positive integer', 'ADDDAYS with undefined argument');
-    testFormulaError('ADDDAYS("123", 1)', {}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with string argument');
-    testFormulaError('ADDDAYS(123, 1)', {}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with number argument');
-    testFormulaError('ADDDAYS(true, 1)', {}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with boolean argument');
-    testFormulaError('ADDDAYS(null, 1)', {}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with null argument');
-    testFormulaError('ADDDAYS(undefined, 1)', {}, 'Argument 1 of ADDDAYS must be a date', 'ADDDAYS with undefined argument');
+    testFormulaError(
+      'ADDDAYS(date, "1")',
+      { date: new Date('2024-01-01') },
+      'Argument 2 of ADDDAYS must be a positive integer',
+      'ADDDAYS with string argument'
+    );
+    testFormulaError(
+      'ADDDAYS(date, 1.5)',
+      { date: new Date('2024-01-01') },
+      'Argument 2 of ADDDAYS must be a positive integer',
+      'ADDDAYS with number argument'
+    );
+    testFormulaError(
+      'ADDDAYS(date, true)',
+      { date: new Date('2024-01-01') },
+      'Argument 2 of ADDDAYS must be a positive integer',
+      'ADDDAYS with boolean argument'
+    );
+    testFormulaError(
+      'ADDDAYS(date, null)',
+      { date: new Date('2024-01-01') },
+      'Argument 2 of ADDDAYS must be a positive integer',
+      'ADDDAYS with null argument'
+    );
+    testFormulaError(
+      'ADDDAYS(date, undefined)',
+      { date: new Date('2024-01-01') },
+      'Argument 2 of ADDDAYS must be a positive integer',
+      'ADDDAYS with undefined argument'
+    );
+    testFormulaError(
+      'ADDDAYS("123", 1)',
+      {},
+      'Argument 1 of ADDDAYS must be a date',
+      'ADDDAYS with string argument'
+    );
+    testFormulaError(
+      'ADDDAYS(123, 1)',
+      {},
+      'Argument 1 of ADDDAYS must be a date',
+      'ADDDAYS with number argument'
+    );
+    testFormulaError(
+      'ADDDAYS(true, 1)',
+      {},
+      'Argument 1 of ADDDAYS must be a date',
+      'ADDDAYS with boolean argument'
+    );
+    testFormulaError(
+      'ADDDAYS(null, 1)',
+      {},
+      'Argument 1 of ADDDAYS must be a date',
+      'ADDDAYS with null argument'
+    );
+    testFormulaError(
+      'ADDDAYS(undefined, 1)',
+      {},
+      'Argument 1 of ADDDAYS must be a date',
+      'ADDDAYS with undefined argument'
+    );
   });
 
   describe('Dynamic context', () => {

@@ -1,225 +1,326 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SF Formula Demo</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-            background-color: #f5f5f5;
-            min-height: 100vh;
-        }
-        .container {
-            width: 100%;
-            min-height: 100vh;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        .left-panel {
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .right-panel {
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-        }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+        background-color: #f5f5f5;
+        min-height: 100vh;
+      }
+      .container {
+        width: 100%;
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .left-panel {
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .right-panel {
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+      }
 
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
+      /* Mobile responsiveness */
+      @media (max-width: 768px) {
+        .container {
+          grid-template-columns: 1fr;
         }
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
+      }
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .demo-section {
+        margin: 5px 0;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fafafa;
+      }
+      #formulaInputContainer {
+        margin: 10px 0;
+        min-height: 60px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      #formulaInputContainer .cm-editor {
+        border: none;
+        outline: none;
+      }
+      #formulaInputContainer .cm-focused {
+        outline: none;
+      }
+      .result {
+        padding: 10px;
+        margin: 10px 0;
+        background-color: #e8f5e8;
+        border-left: 4px solid #4caf50;
+        border-radius: 4px;
+      }
+      .error {
+        padding: 10px;
+        margin: 10px 0;
+        background-color: #ffebee;
+        border-left: 4px solid #f44336;
+        border-radius: 4px;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .example-button {
+        background-color: #28a745;
+        margin: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+      }
+      .example-button:hover {
+        background-color: #218838;
+      }
+      .variables-section {
+        background-color: #e9ecef;
+        padding: 15px;
+        border-radius: 4px;
+        margin: 15px 0;
+      }
+      .variables-section h4 {
+        margin-top: 0;
+        color: #495057;
+      }
+      .variables-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 5px;
+        font-family: monospace;
+        font-size: 14px;
+      }
+      .keyboard-hint {
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+        font-style: italic;
+      }
+      code {
+        background-color: #f1f1f1;
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-family: monospace;
+      }
+      .loading {
+        padding: 10px;
+        margin: 10px 0;
+        background-color: #fff3cd;
+        border-left: 4px solid #ffc107;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .loading-spinner {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #ffc107;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
-        .demo-section {
-            margin: 5px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: #fafafa;
+        100% {
+          transform: rotate(360deg);
         }
-        #formulaInputContainer {
-            margin: 10px 0;
-            min-height: 60px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        #formulaInputContainer .cm-editor {
-            border: none;
-            outline: none;
-        }
-        #formulaInputContainer .cm-focused {
-            outline: none;
-        }
-        .result {
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #e8f5e8;
-            border-left: 4px solid #4CAF50;
-            border-radius: 4px;
-        }
-        .error {
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #ffebee;
-            border-left: 4px solid #f44336;
-            border-radius: 4px;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .example-button {
-            background-color: #28a745;
-            margin: 5px;
-            padding: 5px 10px;
-            font-size: 14px;
-        }
-        .example-button:hover {
-            background-color: #218838;
-        }
-        .variables-section {
-            background-color: #e9ecef;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 15px 0;
-        }
-        .variables-section h4 {
-            margin-top: 0;
-            color: #495057;
-        }
-        .variables-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 5px;
-            font-family: monospace;
-            font-size: 14px;
-        }
-        .keyboard-hint {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-            font-style: italic;
-        }
-        code {
-            background-color: #f1f1f1;
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-family: monospace;
-        }
-        .loading {
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .loading-spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #ffc107;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>SF Formula Demo</h1>
     <div class="container">
-        <!-- Left Panel: Formula Parser & Evaluator -->
-        <div class="left-panel">
-            <div class="demo-section">
-                <h3>Formula Parser & Evaluator</h3>
-                <p>Enter a formula to see it parsed and evaluated using the sf-formula library:</p>
-                <div id="formulaInputContainer"> x + y </div>
-                <div id="result"></div>
-            </div>
+      <!-- Left Panel: Formula Parser & Evaluator -->
+      <div class="left-panel">
+        <div class="demo-section">
+          <h3>Formula Parser & Evaluator</h3>
+          <p>
+            Enter a formula to see it parsed and evaluated using the sf-formula
+            library:
+          </p>
+          <div id="formulaInputContainer">x + y</div>
+          <div id="result"></div>
         </div>
+      </div>
 
-        <!-- Right Panel: Variables and Examples -->
-        <div class="right-panel">
-            <div class="variables-section">
-                <h4>Available Variables:</h4>
-                <div id="formulaVariables"></div>
-            </div>
-            <div class="demo-section">
-                <h3>Example Formulas</h3>
-                <p>Click on any example to try it:</p>
-
-                <h4>Basic Arithmetic:</h4>
-                <button class="example-button" onclick="loadExample('x + y')">x + y</button>
-                <button class="example-button" onclick="loadExample('x * y + 10')">x * y + 10</button>
-                <button class="example-button" onclick="loadExample('(x + y) * 2')">(x + y) * 2</button>
-                <button class="example-button" onclick="loadExample('PI * 2')">PI * 2</button>
-
-                <h4>Logical Operations:</h4>
-                <button class="example-button" onclick="loadExample('x > y')">x > y</button>
-                <button class="example-button" onclick="loadExample('isActive AND x > 5')">isActive AND x > 5</button>
-                <button class="example-button" onclick="loadExample('x > 5 OR y < 3')">x > 5 OR y < 3</button>
-
-                <h4>String Operations:</h4>
-                <button class="example-button" onclick="loadExample('&quot;Hello &quot; + name')">"Hello " + name</button>
-                <button class="example-button" onclick="loadExample('firstName + &quot; &quot; + lastName')">firstName + " " + lastName</button>
-                <button class="example-button" onclick="loadExample('name = &quot;John&quot;')">name = "John"</button>
-                <button class="example-button" onclick="loadExample('INCLUDES(&quot;Red;Blue;Green&quot;, &quot;Blue&quot;)')">INCLUDES("Red;Blue;Green", "Blue")</button>
-                <button class="example-button" onclick="loadExample('INCLUDES(skills, &quot;TypeScript&quot;)')">INCLUDES(skills, "TypeScript")</button>
-                <button class="example-button" onclick="loadExample('COUNTMATCHES(&quot;pass;passed;passing&quot;, &quot;pass&quot;)')">COUNTMATCHES('pass;passed;passing', "pass")</button>
-
-                <h4>List Operations:</h4>
-                <button class="example-button" onclick="loadExample('INCLUDES(items, &quot;Passed&quot;)')">INCLUDES(items, "Passed")</button>
-                <button class="example-button" onclick="loadExample('COUNTMATCHES(items, &quot;Passed&quot;)')">COUNTMATCHES(items, "Passed")</button>
-                <button class="example-button" onclick="loadExample('LEN(items)')">LEN(items)</button>
-                <button class="example-button" onclick="loadExample('SUM(issues)')">SUM(issues)</button>
-                <button class="example-button" onclick="loadExample('REMOVEBLANKS([1,undefined,2,3])')">REMOVEBLANKS([1,undefined,2,"",3])</button>
-                <button class="example-button" onclick="loadExample('JOIN(items, &quot;;&quot;)')">JOIN([items], ";")</button>
-
-                <h4>Date Operations:</h4>
-                <button class="example-button" onclick="loadExample('DATEVALUE(dateString)')">DATEVALUE(dateString)</button>
-                <button class="example-button" onclick="loadExample('ADDDAYS(date, 50)')">ADDDAYS(date, 50)</button>
-
-                <h4>Numbers & Advanced:</h4>
-                <button class="example-button" onclick="loadExample('42')">42</button>
-                <button class="example-button" onclick="loadExample('3.14159')">3.14159</button>
-                <button class="example-button" onclick="loadExample('-10')">-10</button>
-                <button class="example-button" onclick="loadExample('age >= 18 AND balance > 1000')">age >= 18 AND balance > 1000</button>
-            </div>
+      <!-- Right Panel: Variables and Examples -->
+      <div class="right-panel">
+        <div class="variables-section">
+          <h4>Available Variables:</h4>
+          <div id="formulaVariables"></div>
         </div>
+        <div class="demo-section">
+          <h3>Example Formulas</h3>
+          <p>Click on any example to try it:</p>
+
+          <h4>Basic Arithmetic:</h4>
+          <button class="example-button" onclick="loadExample('x + y')">
+            x + y
+          </button>
+          <button class="example-button" onclick="loadExample('x * y + 10')">
+            x * y + 10
+          </button>
+          <button class="example-button" onclick="loadExample('(x + y) * 2')">
+            (x + y) * 2
+          </button>
+          <button class="example-button" onclick="loadExample('PI * 2')">
+            PI * 2
+          </button>
+
+          <h4>Logical Operations:</h4>
+          <button class="example-button" onclick="loadExample('x > y')">
+            x > y
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('isActive AND x > 5')"
+          >
+            isActive AND x > 5
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('x > 5 OR y < 3')"
+          >
+            x > 5 OR y < 3
+          </button>
+
+          <h4>String Operations:</h4>
+          <button
+            class="example-button"
+            onclick="loadExample('&quot;Hello &quot; + name')"
+          >
+            "Hello " + name
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('firstName + &quot; &quot; + lastName')"
+          >
+            firstName + " " + lastName
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('name = &quot;John&quot;')"
+          >
+            name = "John"
+          </button>
+          <button
+            class="example-button"
+            onclick='loadExample(&apos;INCLUDES("Red;Blue;Green", "Blue")&apos;)'
+          >
+            INCLUDES("Red;Blue;Green", "Blue")
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('INCLUDES(skills, &quot;TypeScript&quot;)')"
+          >
+            INCLUDES(skills, "TypeScript")
+          </button>
+          <button
+            class="example-button"
+            onclick='loadExample(&apos;COUNTMATCHES("pass;passed;passing", "pass")&apos;)'
+          >
+            COUNTMATCHES('pass;passed;passing', "pass")
+          </button>
+
+          <h4>List Operations:</h4>
+          <button
+            class="example-button"
+            onclick="loadExample('INCLUDES(items, &quot;Passed&quot;)')"
+          >
+            INCLUDES(items, "Passed")
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('COUNTMATCHES(items, &quot;Passed&quot;)')"
+          >
+            COUNTMATCHES(items, "Passed")
+          </button>
+          <button class="example-button" onclick="loadExample('LEN(items)')">
+            LEN(items)
+          </button>
+          <button class="example-button" onclick="loadExample('SUM(issues)')">
+            SUM(issues)
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('REMOVEBLANKS([1,undefined,2,3])')"
+          >
+            REMOVEBLANKS([1,undefined,2,"",3])
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('JOIN(items, &quot;;&quot;)')"
+          >
+            JOIN([items], ";")
+          </button>
+
+          <h4>Date Operations:</h4>
+          <button
+            class="example-button"
+            onclick="loadExample('DATEVALUE(dateString)')"
+          >
+            DATEVALUE(dateString)
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('ADDDAYS(date, 50)')"
+          >
+            ADDDAYS(date, 50)
+          </button>
+
+          <h4>Numbers & Advanced:</h4>
+          <button class="example-button" onclick="loadExample('42')">42</button>
+          <button class="example-button" onclick="loadExample('3.14159')">
+            3.14159
+          </button>
+          <button class="example-button" onclick="loadExample('-10')">
+            -10
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('age >= 18 AND balance > 1000')"
+          >
+            age >= 18 AND balance > 1000
+          </button>
+        </div>
+      </div>
     </div>
 
     <script src="dist/demo.js"></script>
-</body>
-</html> 
+  </body>
+</html>
