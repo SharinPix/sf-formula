@@ -4,9 +4,12 @@ export default {
   testEnvironment: 'node',
   testMatch: ['**/test/**/*.test.ts'],
   transform: {
-    '^.+\\.ts$': ['ts-jest', {
-      useESM: true
-    }]
+    '^.+\\.ts$': [
+      'ts-jest',
+      {
+        useESM: true,
+      },
+    ],
   },
   /*collectCoverage: true,
   coverageDirectory: 'coverage',
@@ -18,4 +21,4 @@ export default {
       statements: 80
     }
   }*/
-}; 
+};
