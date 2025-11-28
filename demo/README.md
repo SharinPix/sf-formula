@@ -19,14 +19,17 @@ This demo site showcases the sf-formula library functionality with a simple web 
 ## Usage
 
 1. **Build the demo:**
+
    ```bash
    npm run build
    ```
 
 2. **Start development server:**
+
    ```bash
    npm run dev
    ```
+
    This will open your browser automatically to `http://localhost:8080`
 
 3. **Or serve the built files:**
@@ -43,8 +46,9 @@ This demo site showcases the sf-formula library functionality with a simple web 
 ## Next Steps
 
 To integrate with the actual sf-formula library:
+
 1. Import the sf-formula library in `demo.ts`
 2. Replace the `mockEvaluate` method with actual library calls
 3. Update the examples to showcase your library's specific features
 
-The demo is ready to use with webpack for bundling and development! 
+The demo is ready to use with webpack for bundling and development!

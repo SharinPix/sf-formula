@@ -1,4 +1,4 @@
-import {styleTags, tags as t} from "@lezer/highlight"
+import { styleTags, tags as t } from '@lezer/highlight';
 
 export const formulaHighlight = styleTags({
   OrExpr: t.operator,
@@ -13,7 +13,7 @@ export const formulaHighlight = styleTags({
   VariableAttribute: t.string,
   FunctionName: t.function(t.variableName),
   String: t.string,
-  "( )": t.paren,
-  ".": t.derefOperator,
-  ",": t.separator,
-})
+  '( )': t.paren,
+  '.': t.derefOperator,
+  ',': t.separator,
+});

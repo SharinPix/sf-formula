@@ -18,14 +18,8 @@
     "outDir": "./dist",
     "baseUrl": "."
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"],
   "paths": {
     "@lezer/common": ["./node_modules/@lezer/common"],
     "@lezer/highlight": ["./node_modules/@lezer/highlight"],
@@ -33,4 +27,4 @@
     "@codemirror/autocomplete": ["./node_modules/@codemirror/autocomplete"],
     "@codemirror/language": ["./node_modules/@codemirror/language"]
   }
-} 
+}
