@@ -39,6 +39,7 @@ class FormulaDemo {
     items: ['Passed', 'Failed', 'Passed'],
     issues: [3, 1, 3],
     date: '2024-01-01',
+    date1: '2024-03-01',
   };
 
   constructor() {
