@@ -30,6 +30,7 @@ const singleArg: CompletionType[] = [
   'SUM',
   'REMOVEBLANKS',
   'JOIN',
+  'DATEVALUE',
 ].map((func) => {
   return {
     label: func,

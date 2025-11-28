@@ -1024,6 +1024,41 @@ describe('formula_eval', () => {
     );
   });
 
+  describe('DATEVALUE', () => {
+    testFormulaStrictEqual('DATEVALUE("2024-01-01")', {}, new Date("2024-01-01"), 'DATEVALUE converts date string to date');
+    
+  testFormulaError(
+    'DATEVALUE(123)',
+    {},
+    'Argument 1 of DATEVALUE must be a string',
+    'DATEVALUE with number argument'
+  );
+  testFormulaError(
+    'DATEVALUE(true)',
+    {},
+    'Argument 1 of DATEVALUE must be a string',
+    'DATEVALUE with boolean argument'
+  );
+  testFormulaError(
+    'DATEVALUE(null)',
+    {},
+    'Argument 1 of DATEVALUE must be a string',
+    'DATEVALUE with null argument'
+  );
+  testFormulaError(
+    'DATEVALUE(undefined)',
+    {},
+    'Argument 1 of DATEVALUE must be a string',
+    'DATEVALUE with undefined argument'
+  );
+  testFormulaError(
+    'DATEVALUE("not-a-date")',
+    {},
+    'Argument 1 of DATEVALUE must be a valid date string',
+    'DATEVALUE with invalid string argument'
+  );
+  });
+
   describe('ADDDAYS', () => {
     testFormulaStrictEqual('ADDDAYS(date, 1)', {date: new Date("2024-01-01")}, new Date("2024-01-02"), 'ADDDAYS adds days to date string');
     testFormulaStrictEqual('ADDDAYS(date, 50)', {date: new Date("2024-01-01")}, new Date("2024-02-20"), 'ADDDAYS adds days to date string');

@@ -407,6 +407,19 @@ export const defaultFunctions: Record<
     return array.join(separator);
   },
 
+  DATEVALUE: (...args: Array<() => unknown>) => {
+    const [dateArg] = validateArgs(args, { min: 1, max: 1 });
+    const dateValue = computeArg(dateArg);
+    if (typeof dateValue !== 'string')
+      throw new Error('Argument 1 of DATEVALUE must be a string');
+    try {
+      return new Date(dateValue);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      throw new Error('Argument 1 of DATEVALUE must be a valid date string');
+    }
+  },
+
   ADDDAYS: (...args: Array<() => unknown>) => {
     const [dateArg, daysArg] = validateArgs(args, { min: 2, max: 2 });
     const dateValue = computeArg(dateArg);

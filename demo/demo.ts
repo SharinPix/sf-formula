@@ -38,6 +38,7 @@ class FormulaDemo {
     departments: 'Sales;Marketing;Engineering',
     items: ['Passed', 'Failed', 'Passed'],
     issues: [3, 1, 3],
+    dateString: '2024-01-01',
     date: new Date('2024-01-01'),
   };
 
