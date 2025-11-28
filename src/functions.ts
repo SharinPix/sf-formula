@@ -412,12 +412,12 @@ export const defaultFunctions: Record<
     const dateValue = computeArg(dateArg);
     if (typeof dateValue !== 'string')
       throw new Error('Argument 1 of DATEVALUE must be a string');
-    try {
-      return new Date(dateValue);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
+
+    const date = new Date(dateValue);
+    if (isNaN(date.getTime())) {
       throw new Error('Argument 1 of DATEVALUE must be a valid date string');
     }
+    return date;
   },
 
   ADDDAYS: (...args: Array<() => unknown>) => {
