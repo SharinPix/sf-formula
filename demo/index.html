@@ -292,19 +292,19 @@
           <h4>Date Operations:</h4>
           <button
             class="example-button"
-            onclick="loadExample('DATEVALUE(dateString)')"
+            onclick="loadExample('DATEVALUE(date)')"
           >
             DATEVALUE(date)
           </button>
           <button
             class="example-button"
-            onclick="loadExample('ADDDAYS(date, 50)')"
+            onclick="loadExample('ADDDAYS(DATEVALUE(date), 50)')"
           >
             ADDDAYS(DATEVALUE(date), 50)
           </button>
           <button
             class="example-button"
-            onclick="loadExample('DAYSBETWEEN(DATEVALUE(date1), DATEVALUE(date2))')"
+            onclick="loadExample('DAYSBETWEEN(DATEVALUE(date), DATEVALUE(date1))')"
           >
             DAYSBETWEEN(DATEVALUE(date), DATEVALUE(date1))
           </button>
