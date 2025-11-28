@@ -423,19 +423,19 @@ export const defaultFunctions: Record<
   ADDDAYS: (...args: Array<() => unknown>) => {
     const [dateArg, daysArg] = validateArgs(args, { min: 2, max: 2 });
     const dateValue = computeArg(dateArg);
-    const days = computeArg(daysArg);
+    const daysValue = computeArg(daysArg);
     if (!(dateValue instanceof Date))
       throw new Error('Argument 1 of ADDDAYS must be a date');
     if (
-      !Number.isFinite(days) ||
-      isNaN(days) ||
-      !Number.isInteger(days) ||
-      days <= 0
+      !Number.isFinite(daysValue) ||
+      isNaN(daysValue) ||
+      !Number.isInteger(daysValue) ||
+      daysValue <= 0
     )
       throw new Error('Argument 2 of ADDDAYS must be a positive integer');
 
     const result = dateValue;
-    result.setDate(result.getDate() + days);
+    result.setDate(result.getDate() + daysValue);
     return result;
   },
 };
