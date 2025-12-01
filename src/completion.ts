@@ -84,11 +84,11 @@ export const functions: CompletionType[] = [
   },
   {
     label: 'ADDDAYS',
-    apply: snippet(`ADDDAYS(\${value}, \${value})`),
+    apply: snippet(`ADDDAYS(\${value}, \${2})`),
   },
   {
     label: 'DAYSBETWEEN',
-    apply: snippet(`DAYSBETWEEN(\${value}, \${value})`),
+    apply: snippet(`DAYSBETWEEN(\${value}, \${date2})`),
   },
 ];
 
