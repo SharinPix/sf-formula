@@ -1,12 +1,42 @@
-import {completeFromList, snippet, type Completion as CompletionType } from "@codemirror/autocomplete"
+import {
+  completeFromList,
+  snippet,
+  type Completion as CompletionType,
+} from '@codemirror/autocomplete';
 import { formulaLanguage } from './language';
 
-const singleArg: CompletionType[] = ['NOT', 'ABS', 'ACOS', 'ASIN', 'SIN', 'TAN', 'ATAN', 'ATAN2', 'EXP', 'LN', 'LOG', 'ISNUMBER','ISBLANK', 'ISNULL', 'TEXT','FLOOR', 'CEILING', 'LEN', 'MCEILING', 'MFLOOR', 'SQRT', 'SUM', 'REMOVEBLANKS', 'JOIN'].map((func)=> {
+const singleArg: CompletionType[] = [
+  'NOT',
+  'ABS',
+  'ACOS',
+  'ASIN',
+  'SIN',
+  'TAN',
+  'ATAN',
+  'ATAN2',
+  'EXP',
+  'LN',
+  'LOG',
+  'ISNUMBER',
+  'ISBLANK',
+  'ISNULL',
+  'TEXT',
+  'FLOOR',
+  'CEILING',
+  'LEN',
+  'MCEILING',
+  'MFLOOR',
+  'SQRT',
+  'SUM',
+  'REMOVEBLANKS',
+  'JOIN',
+  'DATEVALUE',
+].map((func) => {
   return {
     label: func,
     apply: snippet(`${func}(\${value})`),
   };
-})
+});
 export const functions: CompletionType[] = [
   ...singleArg,
   {
@@ -15,7 +45,9 @@ export const functions: CompletionType[] = [
   },
   {
     label: 'CASE',
-    apply: snippet(`CASE(\n\t\${value},\n\t\${true}, \${"ok"},\n\t\${false},\${"KO"}\n)`),
+    apply: snippet(
+      `CASE(\n\t\${value},\n\t\${true}, \${"ok"},\n\t\${false},\${"KO"}\n)`
+    ),
   },
   ...singleArg,
   {
@@ -50,14 +82,24 @@ export const functions: CompletionType[] = [
     label: 'COUNTMATCHES',
     apply: snippet(`COUNTMATCHES(\${value}, \${"value"})`),
   },
-]
+  {
+    label: 'ADDDAYS',
+    apply: snippet(`ADDDAYS(\${value}, \${2})`),
+  },
+  {
+    label: 'DAYSBETWEEN',
+    apply: snippet(`DAYSBETWEEN(\${value}, \${date2})`),
+  },
+];
 
-export const operators: CompletionType[] = '> < >= <= & + - * / AND OR'.split(' ').map((operator) => {
+export const operators: CompletionType[] = '> < >= <= & + - * / AND OR'
+  .split(' ')
+  .map((operator) => {
     return {
-    label: operator,
-    apply: snippet(`\${value} ${operator} \${value}`),
-  }}
-);
+      label: operator,
+      apply: snippet(`\${value} ${operator} \${value}`),
+    };
+  });
 
 export const values: CompletionType[] = [
   {
@@ -75,18 +117,18 @@ export const values: CompletionType[] = [
   {
     label: 'Number',
     apply: snippet(`"\${12}"`),
-  }
-]
+  },
+];
 
-export const completionList: CompletionType[]= [
+export const completionList: CompletionType[] = [
   ...functions,
   ...operators,
   ...values,
-]
+];
 
 export const Completion = formulaLanguage.data.of({
-  autocomplete: completeFromList(completionList)
-})
+  autocomplete: completeFromList(completionList),
+});
 
 export default {
   Completion,
@@ -94,4 +136,4 @@ export default {
   functions,
   operators,
   values,
-}
+};

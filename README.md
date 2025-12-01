@@ -13,23 +13,27 @@ npm install @sharinpix/sf-formula
 This library provides multiple import paths to avoid dependency conflicts, especially with CodeMirror:
 
 ### Default Import (Compiled)
+
 ```typescript
 import { formulaEval } from '@sharinpix/sf-formula';
 ```
 
 ### Core Functionality Only (Raw TypeScript)
+
 ```typescript
 // For projects that want to avoid CodeMirror dependencies
 import { formulaEval } from '@sharinpix/sf-formula/core';
 ```
 
 ### Raw TypeScript Source
+
 ```typescript
 // Direct access to TypeScript source files
 import { formulaEval } from '@sharinpix/sf-formula/src';
 ```
 
 ### Individual Modules
+
 ```typescript
 // Import specific functionality
 import { defaultFunctions } from '@sharinpix/sf-formula/functions';
@@ -55,6 +59,7 @@ npm install @codemirror/language @codemirror/autocomplete @lezer/common @lezer/h
 ```
 
 Then use:
+
 ```typescript
 import { languagePack } from '@sharinpix/sf-formula';
 import { EditorView } from '@codemirror/view';
@@ -90,11 +95,11 @@ const result4 = formulaEval('IF(x > 0, "positive", "negative")', { x: 5 }); // "
 If you need CodeMirror integration, install these peer dependencies:
 
 - `@codemirror/language`
-- `@codemirror/autocomplete` 
+- `@codemirror/autocomplete`
 - `@lezer/common`
 - `@lezer/highlight`
 - `@lezer/lr`
 
 ## License
 
-MIT 
+MIT
