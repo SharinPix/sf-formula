@@ -52,11 +52,11 @@
   "author": "Luc Boissaye",
   "license": "MIT",
   "peerDependencies": {
+    "@codemirror/autocomplete": "^6.18.6",
+    "@codemirror/language": "^6.11.1",
     "@lezer/common": "^1.2.3",
     "@lezer/highlight": "^1.2.1",
-    "@lezer/lr": "^1.4.2",
-    "@codemirror/autocomplete": "^6.18.6",
-    "@codemirror/language": "^6.11.1"
+    "@lezer/lr": "^1.4.2"
   },
   "peerDependenciesMeta": {
     "@codemirror/autocomplete": {
@@ -67,13 +67,13 @@
     }
   },
   "devDependencies": {
-    "@lezer/common": "^1.2.3",
-    "@lezer/highlight": "^1.0.0",
-    "@lezer/lr": "^1.0.0",
     "@codemirror/autocomplete": "^6.10.2",
     "@codemirror/language": "^6.0.0",
     "@eslint/js": "^9.21.0",
+    "@lezer/common": "^1.2.3",
     "@lezer/generator": "^1.7.0",
+    "@lezer/highlight": "^1.0.0",
+    "@lezer/lr": "^1.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.9",
     "@typescript-eslint/eslint-plugin": "^8.26.0",
@@ -89,7 +89,7 @@
     "jest-environment-jsdom": "^30.0.0",
     "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
-    "ts-jest": "^29.4.0",
+    "ts-jest": "^29.4.6",
     "typedoc": "^0.28.1",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.26.0"
