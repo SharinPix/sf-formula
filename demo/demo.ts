@@ -17,7 +17,7 @@ class FormulaDemo {
   private variablesView!: EditorView;
   private inputContainer: HTMLElement;
   private formulaVariables: HTMLElement;
-  private formula = 'IF(x +  y + nested.property > 0, "Yes", "No")';
+  private formula = "IF(x +  y + nested.property > 0, 'Yes', 'No')";
   private demoVariables = {
     x: 10,
     nested: {

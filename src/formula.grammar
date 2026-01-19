@@ -30,7 +30,7 @@ String { string }
   identifier { $[A-Za-z_] $[A-Za-z0-9_]* }
   @precedence {Boolean, identifier}
   end { @eof }
-  string { '"' !["]* '"' }
+  string { '"' !["]* '"' | "'" ![']* "'" }
 }
 
 @external propSource formulaHighlight from "./highlight"
