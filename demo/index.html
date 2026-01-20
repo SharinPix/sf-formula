@@ -228,15 +228,33 @@
           </button>
           <button
             class="example-button"
+            onclick='loadExample("&#39;Hello &#39; + name")'
+          >
+            'Hello ' + name
+          </button>
+          <button
+            class="example-button"
             onclick="loadExample('firstName + &quot; &quot; + lastName')"
           >
             firstName + " " + lastName
           </button>
           <button
             class="example-button"
+            onclick='loadExample("firstName + &#39; &#39; + lastName")'
+          >
+            firstName + ' ' + lastName
+          </button>
+          <button
+            class="example-button"
             onclick="loadExample('name = &quot;John&quot;')"
           >
             name = "John"
+          </button>
+          <button
+            class="example-button"
+            onclick='loadExample("name = &#39;John&#39;")'
+          >
+            name = 'John'
           </button>
           <button
             class="example-button"
@@ -307,6 +325,32 @@
             onclick="loadExample('DAYSBETWEEN(DATEVALUE(date), DATEVALUE(date1))')"
           >
             DAYSBETWEEN(DATEVALUE(date), DATEVALUE(date1))
+          </button>
+
+          <h4>Conditional Logic:</h4>
+          <button
+            class="example-button"
+            onclick="loadExample('IF(x > 10, &quot;High&quot;, &quot;Low&quot;)')"
+          >
+            IF(x > 10, "High", "Low")
+          </button>
+          <button
+            class="example-button"
+            onclick='loadExample("IF(x > 10, &#39;High&#39;, &#39;Low&#39;)")'
+          >
+            IF(x > 10, 'High', 'Low')
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('IF(isActive, &quot;Active&quot;, &quot;Inactive&quot;)')"
+          >
+            IF(isActive, "Active", "Inactive")
+          </button>
+          <button
+            class="example-button"
+            onclick='loadExample("IF(isActive, &#39;Active&#39;, &#39;Inactive&#39;)")'
+          >
+            IF(isActive, 'Active', 'Inactive')
           </button>
 
           <h4>Numbers & Advanced:</h4>

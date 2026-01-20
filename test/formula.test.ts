@@ -59,6 +59,7 @@ describe('formula_eval', () => {
   // Some basic usecases
   describe('Basics', () => {
     testFormula('"Hello"', {}, 'Hello', 'String');
+    testFormula("'Hello'", {}, 'Hello', 'Single quote string');
     testFormula('12', {}, 12, 'Number');
     testFormula('true', {}, true, 'Boolean true');
     testFormula('false', {}, false, 'Boolean false');
@@ -93,8 +94,21 @@ describe('formula_eval', () => {
   describe('Whitespaces', () => {
     testFormula(' "Hello"', {}, 'Hello', 'starting with whitespace');
     testFormula('"Hello" ', {}, 'Hello', 'ending with whitespace');
+    testFormula("  'Hello'", {}, 'Hello', 'single quote starting with whitespace');
+    testFormula("'Hello' ", {}, 'Hello', 'single quote ending with whitespace');
     testFormula('  12', {}, 12, 'ending with whitespace');
     testFormula('12 ', {}, 12, 'ending with whitespace');
+  });
+
+  describe('String Quotes', () => {
+    testFormula('"Double quotes"', {}, 'Double quotes', 'Double quoted string');
+    testFormula("'Single quotes'", {}, 'Single quotes', 'Single quoted string');
+    testFormula('"Mixed content with numbers 123"', {}, 'Mixed content with numbers 123', 'Double quotes with numbers');
+    testFormula("'Mixed content with numbers 123'", {}, 'Mixed content with numbers 123', 'Single quotes with numbers');
+    testFormula('"Special chars !@#$%"', {}, 'Special chars !@#$%', 'Double quotes with special chars');
+    testFormula("'Special chars !@#$%'", {}, 'Special chars !@#$%', 'Single quotes with special chars');
+    testFormula('""', {}, '', 'Empty double quoted string');
+    testFormula("''", {}, '', 'Empty single quoted string');
   });
 
   // Text Operations
@@ -122,6 +136,12 @@ describe('formula_eval', () => {
       { FirstName: 'John', LastName: 'Doe' },
       'John Doe',
       'text concatenation'
+    );
+    testFormula(
+      "FirstName & ' ' & LastName",
+      { FirstName: 'John', LastName: 'Doe' },
+      'John Doe',
+      'text concatenation with single quotes'
     );
   });
 
@@ -185,6 +205,7 @@ describe('formula_eval', () => {
     );
     testFormula('Amount > 1000', { Amount: 1500 }, true, 'numeric comparison');
     testFormula('Status = "Open"', { Status: 'Open' }, true, 'text comparison');
+    testFormula("Status = 'Open'", { Status: 'Open' }, true, 'text comparison with single quotes');
     testFormula(
       'IsActive AND Amount > 0',
       { IsActive: true, Amount: 100 },
@@ -254,6 +275,18 @@ describe('formula_eval', () => {
       { Amount: 2 },
       'Low',
       'simple if condition'
+    );
+    testFormula(
+      "IF(Amount > 1000, 'High', 'Low')",
+      { Amount: 1500 },
+      'High',
+      'simple if condition with single quotes'
+    );
+    testFormula(
+      "IF(Amount > 1000, 'High', 'Low')",
+      { Amount: 2 },
+      'Low',
+      'simple if condition with single quotes'
     );
     testFormula(
       'IF(LEN(name) < 3, "Missing " + TEXT(3 - LEN(name)) + " Chars" , true)',
