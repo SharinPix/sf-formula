@@ -451,4 +451,30 @@ export const defaultFunctions: Record<
       (date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24)
     );
   },
+
+  REGEX: (...args: Array<() => unknown>) => {
+    const [textArg, regexArg] = validateArgs(args, { min: 2, max: 2 });
+    const text = computeArg(textArg);
+    const regexText = computeArg(regexArg);
+
+    if (typeof text !== 'string') {
+      throw new Error('Argument 1 of REGEX must be a string');
+    }
+
+    if (typeof regexText !== 'string') {
+      throw new Error('Argument 2 of REGEX must be a string');
+    }
+
+    try {
+      // Salesforce REGEX matches the entire string, so anchor the pattern
+      const pattern =
+        regexText.startsWith('^') && regexText.endsWith('$')
+          ? regexText
+          : `^(?:${regexText})$`;
+      const regex = new RegExp(pattern);
+      return regex.test(text);
+    } catch {
+      throw new Error('Argument 2 of REGEX is not a valid regular expression');
+    }
+  },
 };

@@ -90,6 +90,10 @@ export const functions: CompletionType[] = [
     label: 'DAYSBETWEEN',
     apply: snippet(`DAYSBETWEEN(\${value}, \${date2})`),
   },
+  {
+    label: 'REGEX',
+    apply: snippet(`REGEX(\${text}, \${"regex_pattern"})`),
+  },
 ];
 
 export const operators: CompletionType[] = '> < >= <= & + - * / AND OR'
