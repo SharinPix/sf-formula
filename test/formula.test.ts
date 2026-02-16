@@ -1057,6 +1057,144 @@ describe('formula_eval', () => {
     );
   });
 
+  describe('REGEX', () => {
+    testFormula(
+      'REGEX(Email, "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")',
+      { Email: 'user@example.com' },
+      true,
+      'REGEX email valid'
+    );
+    testFormula(
+      'REGEX(Email, "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")',
+      { Email: 'invalid-email' },
+      false,
+      'REGEX email invalid'
+    );
+
+    testFormula(
+      'REGEX("abc123", "[a-z]+[0-9]+")',
+      {},
+      true,
+      'REGEX simple alphanumeric match'
+    );
+    testFormula('REGEX("123", "[0-9]+")', {}, true, 'REGEX digits only match');
+    testFormula(
+      'REGEX("abc", "[0-9]+")',
+      {},
+      false,
+      'REGEX digits only no match'
+    );
+    // Full string match behavior (Salesforce behavior)
+    testFormula(
+      'REGEX("abc123def", "[0-9]+")',
+      {},
+      false,
+      'REGEX partial match returns false (full string match required)'
+    );
+    testFormula(
+      'REGEX("123", "^[0-9]+$")',
+      {},
+      true,
+      'REGEX with explicit anchors'
+    );
+
+    testFormula(
+      'REGEX(Phone, "\\d{3}-\\d{3}-\\d{4}")',
+      { Phone: '415-555-1234' },
+      true,
+      'REGEX phone number valid'
+    );
+    testFormula(
+      'REGEX(Phone, "\\d{3}-\\d{3}-\\d{4}")',
+      { Phone: '415-55-1234' },
+      false,
+      'REGEX phone number invalid'
+    );
+
+    testFormula('REGEX("", ".*")', {}, true, 'REGEX empty string matches .*');
+    testFormula(
+      'REGEX("", ".+")',
+      {},
+      false,
+      'REGEX empty string does not match .+'
+    );
+
+    testFormula(
+      'REGEX("Hello", "[A-Z][a-z]+")',
+      {},
+      true,
+      'REGEX case sensitive match'
+    );
+    testFormula(
+      'REGEX("hello", "[A-Z][a-z]+")',
+      {},
+      false,
+      'REGEX case sensitive no match'
+    );
+
+    testFormula(
+      'REGEX(name, "[A-Za-z]+")',
+      { name: 'John' },
+      true,
+      'REGEX with variable'
+    );
+    testFormula(
+      'REGEX(name, "[A-Za-z]+")',
+      { name: 'John123' },
+      false,
+      'REGEX with variable no match'
+    );
+
+    testFormulaError(
+      'REGEX(123, "[0-9]+")',
+      {},
+      'Argument 1 of REGEX must be a string',
+      'REGEX with number first argument'
+    );
+    testFormulaError(
+      'REGEX("test", 123)',
+      {},
+      'Argument 2 of REGEX must be a string',
+      'REGEX with number second argument'
+    );
+    testFormulaError(
+      'REGEX(true, "[a-z]+")',
+      {},
+      'Argument 1 of REGEX must be a string',
+      'REGEX with boolean first argument'
+    );
+    testFormulaError(
+      'REGEX("test", true)',
+      {},
+      'Argument 2 of REGEX must be a string',
+      'REGEX with boolean second argument'
+    );
+    testFormulaError(
+      'REGEX("test")',
+      {},
+      'Not enough arguments 1/2 in REGEX("test")',
+      'REGEX with one argument'
+    );
+    testFormulaError(
+      'REGEX()',
+      {},
+      'Not enough arguments 0/2 in REGEX()',
+      'REGEX with no arguments'
+    );
+    testFormulaError(
+      'REGEX("a", "b", "c")',
+      {},
+      'Too many arguments 3/2 in REGEX("a", "b", "c")',
+      'REGEX with too many arguments'
+    );
+    testFormulaError(
+      'REGEX("test", "[")',
+      {},
+      'Argument 2 of REGEX is not a valid regular expression',
+      'REGEX with invalid regex pattern'
+    );
+  });
+
   describe('DATEVALUE', () => {
     testFormulaStrictEqual(
       'DATEVALUE("2024-01-01")',

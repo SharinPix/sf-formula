@@ -307,6 +307,26 @@
             JOIN([items], ";")
           </button>
 
+          <h4>Pattern Matching (REGEX):</h4>
+          <button
+            class="example-button"
+            onclick="loadExample('REGEX(email, &quot;[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}&quot;)')"
+          >
+            REGEX(email, "email pattern")
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('REGEX(phone, &quot;\\d{3}-\\d{3}-\\d{4}&quot;)')"
+          >
+            REGEX(phone, "phone pattern")
+          </button>
+          <button
+            class="example-button"
+            onclick="loadExample('REGEX(name, &quot;[A-Za-z]+&quot;)')"
+          >
+            REGEX(name, "[A-Za-z]+")
+          </button>
+
           <h4>Date Operations:</h4>
           <button
             class="example-button"

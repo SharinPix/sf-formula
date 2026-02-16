@@ -40,6 +40,8 @@ class FormulaDemo {
     issues: [3, 1, 3],
     date: '2024-01-01',
     date1: '2024-03-01',
+    email: 'john.doe@example.com',
+    phone: '415-555-1234',
   };
 
   constructor() {
