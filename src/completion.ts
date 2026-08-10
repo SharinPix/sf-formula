@@ -94,6 +94,10 @@ export const functions: CompletionType[] = [
     label: 'REGEX',
     apply: snippet(`REGEX(\${text}, \${"regex_pattern"})`),
   },
+  {
+    label: 'RANDOMUUID',
+    apply: snippet(`RANDOMUUID()`),
+  },
 ];
 
 export const operators: CompletionType[] = '> < >= <= & + - * / AND OR'

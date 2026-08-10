@@ -1195,6 +1195,30 @@ describe('formula_eval', () => {
     );
   });
 
+  describe('RANDOMUUID', () => {
+    const uuidV4Pattern =
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+    it('RANDOMUUID() returns a UUID v4 string', () => {
+      const result = formulaEval('RANDOMUUID()', {});
+      expect(typeof result).toBe('string');
+      expect(result).toMatch(uuidV4Pattern);
+    });
+
+    it('RANDOMUUID() returns unique values', () => {
+      const first = formulaEval('RANDOMUUID()', {});
+      const second = formulaEval('RANDOMUUID()', {});
+      expect(first).not.toBe(second);
+    });
+
+    testFormulaError(
+      'RANDOMUUID(1)',
+      {},
+      'Too many arguments 1/0 in RANDOMUUID(1)',
+      'RANDOMUUID with too many arguments'
+    );
+  });
+
   describe('DATEVALUE', () => {
     testFormulaStrictEqual(
       'DATEVALUE("2024-01-01")',
