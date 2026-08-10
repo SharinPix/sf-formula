@@ -477,4 +477,9 @@ export const defaultFunctions: Record<
       throw new Error('Argument 2 of REGEX is not a valid regular expression');
     }
   },
+
+  RANDOMUUID: (...args: Array<() => unknown>) => {
+    validateArgs(args, { min: 0, max: 0 });
+    return crypto.randomUUID();
+  },
 };
